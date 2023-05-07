@@ -1,0 +1,14 @@
+{
+  "extends": ["next/core-web-vitals","eslint:recommended"],
+  "rules": {
+    "@next/next/no-img-element": "on",
+    "jsx-a11y/alt-text": "on",
+    "react/display-name": "on",
+    "react/jsx-max-props-per-line": [
+      1,
+      {
+        "maximum": 1
+      }
+    ]
+  }
+}
