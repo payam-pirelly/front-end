@@ -2,6 +2,7 @@ import * as React from "react";
 import { ImageList, ImageListItem, ImageListItemBar, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { toggledCarIndex } from "src/redux/carSlice";
+import { Box } from "@mui/system";
 
 export default function CarHorizontalList() {
   const cars = useSelector((state) => state.car?.car);
@@ -13,31 +14,33 @@ export default function CarHorizontalList() {
   };
 
   return (
-    <ImageList
-      sx={{
-        gridAutoFlow: "column",
-        gridTemplateColumns: "repeat(auto-fit, minmax(160px,1fr)) !important",
-        gridAutoColumns: "minmax(160px, 1fr)",
-      }}
-    >
-      {cars?.map((image, id) => (
-        <ImageListItem
-          onClick={() => handleOnClick(image?.image)}
-          key={id}
-          sx={{
-            cursor: "pointer",
-          }}
-        >
-          <img
-            src={`/images/${image?.image}.jpg`}
-            style={{
-              borderRadius: 10,
-              border: carIndex === image?.image ? "3px double #32a1ce" : "none",
+    <Box display={"flex"}>
+      <ImageList
+        sx={{
+          gridAutoFlow: "column",
+          gridTemplateColumns: "repeat(auto-fit, minmax(160px,1fr)) !important",
+          gridAutoColumns: "minmax(160px, 1fr)",
+        }}
+      >
+        {cars?.map((image, id) => (
+          <ImageListItem
+            onClick={() => handleOnClick(image?.image)}
+            key={id}
+            sx={{
+              cursor: "pointer",
             }}
-          />
-          <ImageListItemBar title={image.title} />
-        </ImageListItem>
-      ))}
-    </ImageList>
+          >
+            <img
+              src={`/images/${image?.image}.jpg`}
+              style={{
+                borderRadius: 10,
+                border: carIndex === image?.image ? "3px double #32a1ce" : "none",
+              }}
+            />
+            <ImageListItemBar title={image.title} />
+          </ImageListItem>
+        ))}
+      </ImageList>
+    </Box>
   );
 }

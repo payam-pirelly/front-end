@@ -54,7 +54,7 @@ export default function Iframe() {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8,
+          my: 1,
         }}
       >
         <Container maxWidth="xl">
@@ -95,26 +95,26 @@ export default function Iframe() {
                   subheader="18.2k miles"
                 />
                 <CardContent>{form}</CardContent>
-                <Box pb={1} textAlign={"center"}>
-                  <Button
-                    onClick={() => {
-                      if (carStatus === "carList") dispatch(toggledCarStatus("car360"));
-                      else dispatch(toggledCarStatus("carList"));
-                    }}
-                    fullWidth={false}
-                    startIcon={
-                      <SvgIcon fontSize="small">
-                        <PlusIcon />
-                      </SvgIcon>
-                    }
-                    variant="contained"
-                  >
-                    more cars
-                  </Button>
-                </Box>
               </Card>
             </Grid>
           </Grid>
+          <Box py={1} textAlign={"center"}>
+            <Button
+              onClick={() => {
+                if (carStatus === "carList") dispatch(toggledCarStatus("car360"));
+                else dispatch(toggledCarStatus("carList"));
+              }}
+              fullWidth={false}
+              startIcon={
+                <SvgIcon fontSize="small">
+                  <PlusIcon />
+                </SvgIcon>
+              }
+              variant="contained"
+            >
+              more cars
+            </Button>
+          </Box>
           <CarHorizontalList />
         </Container>
       </Box>
