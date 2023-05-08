@@ -77,7 +77,7 @@ const Car360Viewer = () => {
                   display:
                     Math.floor(((angle % carsLength) * 10) / 10 + 1) === i?.image ? "flex" : "none",
                 }}
-                width={width * 0.9}
+                width={width}
                 height={500}
               />
               {i?.detail && hotspots && (
