@@ -1,17 +1,32 @@
-import { Button, SvgIcon } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Grid,
+  IconButton,
+  SvgIcon,
+} from "@mui/material";
+import Head from "next/head";
 import React from "react";
-import Car360Viewer from "src/sections/car/car360Viewer";
-import CarHorizontalList from "src/sections/car/carHorizontalList";
-import ShowCars from "src/sections/car/showCars";
+import Car360Viewer from "src/sections/car/car-360-viewer";
+import CarHorizontalList from "src/sections/car/car-horizontal-list";
+import ShowCars from "src/sections/car/show-cars";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
-import { Box } from "@mui/system";
+import { Box, Container } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
 import { toggledCarStatus } from "src/redux/carSlice";
-import CarItem from "src/sections/car/carItem";
+import CarItem from "src/sections/car/car-item";
 import { useMemo } from "react";
+import ResponsiveAppBar from "src/sections/car/app-bar";
+import ShowWindowDimensions from "src/utils/resize";
+import { blue } from "@mui/material/colors";
+import CloseIcon from "src/sections/car/close-icon";
 
 export default function Iframe() {
   const { carStatus } = useSelector((state) => state.car);
+  const { height } = ShowWindowDimensions();
 
   const dispatch = useDispatch();
 
@@ -20,7 +35,6 @@ export default function Iframe() {
       case "carList":
         return <ShowCars />;
       case "car360":
-        console.log(carStatus);
         return <Car360Viewer />;
       case "carItem":
         return <CarItem />;
@@ -32,25 +46,78 @@ export default function Iframe() {
 
   return (
     <>
-      {form}
-      <Box alignSelf={"center"}>
-        <Button
-          onClick={() => {
-            if (carStatus === "carList") dispatch(toggledCarStatus("car360"));
-            else dispatch(toggledCarStatus("carList"));
-          }}
-          fullWidth={false}
-          startIcon={
-            <SvgIcon fontSize="small">
-              <PlusIcon />
-            </SvgIcon>
-          }
-          variant="contained"
-        >
-          more cars
-        </Button>
+      <Head>
+        <title>Pirelly</title>
+      </Head>
+      <ResponsiveAppBar />
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8,
+        }}
+      >
+        <Container maxWidth="xl">
+          <Grid container sx={{ flex: "1 1 auto" }} justifyContent={"center"}>
+            <Grid
+              xs={10}
+              maxHeight={height}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                position: "relative",
+              }}
+            >
+              <Card
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  alignSelf: "center",
+                }}
+              >
+                <CardHeader
+                  avatar={
+                    <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                      B
+                    </Avatar>
+                  }
+                  action={
+                    <>
+                      {carStatus !== "car360" && (
+                        <IconButton aria-label="settings">
+                          <CloseIcon top={0} right={0} />
+                        </IconButton>
+                      )}
+                    </>
+                  }
+                  title="2021 BMW 430i xDrive"
+                  subheader="18.2k miles"
+                />
+                <CardContent>{form}</CardContent>
+                <Box pb={1} textAlign={"center"}>
+                  <Button
+                    onClick={() => {
+                      if (carStatus === "carList") dispatch(toggledCarStatus("car360"));
+                      else dispatch(toggledCarStatus("carList"));
+                    }}
+                    fullWidth={false}
+                    startIcon={
+                      <SvgIcon fontSize="small">
+                        <PlusIcon />
+                      </SvgIcon>
+                    }
+                    variant="contained"
+                  >
+                    more cars
+                  </Button>
+                </Box>
+              </Card>
+            </Grid>
+          </Grid>
+          <CarHorizontalList />
+        </Container>
       </Box>
-      <CarHorizontalList />
     </>
   );
 }

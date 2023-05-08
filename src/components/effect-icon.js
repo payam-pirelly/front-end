@@ -7,22 +7,21 @@ const Keyframes = styled("div")({
     from: {
       opacity: 1,
       transform: "scale(1)",
-      color: "green",
+      color: "blue",
     },
     to: {
       opacity: 0,
       border: "gray",
-      boxShadow:
-        "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
+      boxShadow: "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
       transform: "scale(2)",
-      color: "green",
+      color: "blue",
     },
   },
   animation: "pulsate 1s infinite ease",
   position: "absolute",
 });
 
-export default function PlusIcon() {
+export default function EffectIcon() {
   return (
     <Keyframes>
       <AdjustIcon />
