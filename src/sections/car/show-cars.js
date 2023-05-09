@@ -2,7 +2,7 @@ import * as React from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { useDispatch, useSelector } from "react-redux";
-import { toggledCarIndex } from "src/redux/carSlice";
+import { toggledCarIndex } from "src/redux/car-slice";
 import { useRef } from "react";
 import { useEffect } from "react";
 import ShowWindowDimensions from "src/utils/resize";

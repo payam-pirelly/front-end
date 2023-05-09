@@ -4,10 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Image from "next/image";
 import ShowWindowDimensions from "src/utils/resize";
-import { IconButton, SvgIcon } from "@mui/material";
-import ArrowLeftIcon from "@heroicons/react/24/solid/ArrowLeftIcon";
-import ArrowRightIcon from "@heroicons/react/24/solid/ArrowRightIcon";
-import { toggledCarIndex } from "src/redux/carSlice";
+import { IconButton } from "@mui/material";
+import { toggledCarIndex } from "src/redux/car-slice";
 import { Box } from "@mui/system";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";

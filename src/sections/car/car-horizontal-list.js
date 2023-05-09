@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ImageList, ImageListItem, ImageListItemBar, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { toggledCarIndex } from "src/redux/carSlice";
+import { toggledCarIndex } from "src/redux/car-slice";
 import { Box } from "@mui/system";
 
 export default function CarHorizontalList() {

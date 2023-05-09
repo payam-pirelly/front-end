@@ -5,7 +5,7 @@ import ShowWindowDimensions from "src/utils/resize";
 
 import Image from "next/image";
 import { Box, Tooltip, IconButton, FormControl, FormControlLabel, Switch } from "@mui/material";
-import { toggledCarIndex } from "src/redux/carSlice";
+import { toggledCarIndex } from "src/redux/car-slice";
 import EffectIcon from "src/components/effect-icon";
 
 const Car360Viewer = () => {

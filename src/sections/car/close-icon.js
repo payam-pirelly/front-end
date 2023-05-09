@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { toggledCarStatus } from "src/redux/carSlice";
+import { toggledCarStatus } from "src/redux/car-slice";
 import PropTypes from 'prop-types';
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { IconButton, Tooltip } from "@mui/material";
