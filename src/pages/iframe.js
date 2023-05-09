@@ -16,7 +16,7 @@ import ShowCars from "src/sections/car/show-cars";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { Box, Container } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
-import { toggledCarStatus } from "src/redux/carSlice";
+import { toggledCarStatus } from "src/redux/car-slice";
 import CarItem from "src/sections/car/car-item";
 import { useMemo } from "react";
 import ResponsiveAppBar from "src/sections/car/app-bar";
