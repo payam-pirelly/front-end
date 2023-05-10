@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ImageList, ImageListItem, ImageListItemBar, Grid } from "@mui/material";
+import { ImageList, ImageListItem, ImageListItemBar } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { toggledCarIndex } from "src/redux/car-slice";
 import { Box } from "@mui/system";
@@ -14,7 +14,7 @@ export default function CarHorizontalList() {
   };
 
   return (
-    <Box display={"flex"}>
+    <Box sx={{ position: "absolute", bottom: 0, width: "100%" }}>
       <ImageList
         sx={{
           gridAutoFlow: "column",

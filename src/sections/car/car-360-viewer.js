@@ -5,7 +5,7 @@ import ShowWindowDimensions from "src/utils/resize";
 
 import Image from "next/image";
 import { Box, Tooltip, IconButton, FormControl, FormControlLabel, Switch } from "@mui/material";
-import { toggledCarIndex } from "src/redux/car-slice";
+import { toggledCarIndex, toggledCarStatus } from "src/redux/car-slice";
 import EffectIcon from "src/components/effect-icon";
 
 const Car360Viewer = () => {
@@ -20,11 +20,11 @@ const Car360Viewer = () => {
   const [hotspots, setHotspots] = useState(false);
   const dispatch = useDispatch();
   const [drag, setDrag] = useState(false);
-  const { width } = ShowWindowDimensions();
+  const { width, height } = ShowWindowDimensions();
   const offsetParent = ref?.current?.offsetParent;
   const clientWidth = offsetParent?.clientWidth,
     clientHeight = offsetParent?.clientHeight;
-  const { connect, angle, zoom } = useAxes(
+  const { connect, angle } = useAxes(
     {
       angle: {
         range: [0, carsLength * 10],
@@ -52,10 +52,14 @@ const Car360Viewer = () => {
     setHotspots((previous) => !previous);
   };
 
+  const handleClick = () => {
+    dispatch(toggledCarStatus("fullWidth"));
+  };
+
   return (
     <>
-      <div className="car_rotate">
-        <div style={{ position: "relative", zIndex: 10 }}>
+      <div className="car_rotate" onClick={handleClick}>
+        <div style={{ zIndex: 10 }}>
           {cars.map((i, key) => (
             <Box key={key} ref={ref}>
               <Image
@@ -66,19 +70,19 @@ const Car360Viewer = () => {
                 onMouseDown={() => setDrag(true)}
                 onMouseUp={() => setDrag(false)}
                 alt="image"
-                key={key}
                 priority
                 src={`/images/${i?.image}.jpg`}
                 style={{
-                  width: "auto",
+                  objectFit: "contain",
                   height: "auto",
+                  maxHeight: height,
                   borderRadius: 10,
                   cursor: drag ? "grabbing" : "grab",
                   display:
                     Math.floor(((angle % carsLength) * 10) / 10 + 1) === i?.image ? "flex" : "none",
                 }}
                 width={width}
-                height={500}
+                height={height}
               />
               {i?.detail && hotspots && (
                 <Box

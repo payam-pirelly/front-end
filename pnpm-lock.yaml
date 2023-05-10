@@ -4,6 +4,9 @@ dependencies:
   '@egjs/react-axes':
     specifier: ^3.2.4
     version: 3.2.4
+  '@egjs/react-view360':
+    specifier: 4.0.0-beta.6
+    version: 4.0.0-beta.6
   '@emotion/cache':
     specifier: 11.10.5
     version: 11.10.5
@@ -150,6 +153,12 @@ packages:
       to-fast-properties: 2.0.0
     dev: false
 
+  /@cfcs/core@0.0.24:
+    resolution: {integrity: sha512-feB38qu+eDk0Pggh/yR7gjaNmvUYA2uCxHP3Pz2MLE4LZ/9jPdtu8bzCSI47yTEhWyZCF5Pk698hdz8IN2mTjA==}
+    dependencies:
+      '@egjs/component': 3.0.4
+    dev: false
+
   /@cfcs/core@0.0.26:
     resolution: {integrity: sha512-bqbNKLNIjiNZ29WX3+TPdw98YusWXwQkcRcpS8vCPf6+2FRPhHFg+AXSfmTsDzbcrR48ZY7NrxY2w52M/P1SpA==}
     dependencies:
@@ -233,11 +242,33 @@ packages:
     resolution: {integrity: sha512-sXA7bGbIeLF2OAw/vpka66c6QBBUPcA4UUhR4WGJfnp2XWdiI8QrnJGJMr/UxpE/xnevX9tN3jvNPlW8WkHl3g==}
     dev: false
 
+  /@egjs/imready@1.4.1:
+    resolution: {integrity: sha512-JIOBs4lB7FYdsKi5uvz2j3SObX8eShtZjtqlOH41tm185aJOQZwiKBK8+V4MxzG4X6DqVhpdN8UcuVwBbElfsg==}
+    dependencies:
+      '@cfcs/core': 0.0.24
+      '@egjs/component': 3.0.4
+    dev: false
+
   /@egjs/react-axes@3.2.4:
     resolution: {integrity: sha512-mSMWxnPN+ZhemJbo7701uwY9CM9/fopMIbosHngJtJsG0pc9uY8VXSadgE36yQM1TnkuIvrg3FgS0DBk2jyrfw==}
     dependencies:
       '@cfcs/react': 0.0.4
       '@egjs/axes': 3.8.4
+    dev: false
+
+  /@egjs/react-view360@4.0.0-beta.6:
+    resolution: {integrity: sha512-gYOS0Ds+0mhn0qftUeD9zFTNA7qExdeH02IBcr46EGC+sdp2GheAeE4As9t/3pZKv/wPlOt+wPdbFVVD21R5yA==}
+    dependencies:
+      '@egjs/view360': 4.0.0-beta.6
+    dev: false
+
+  /@egjs/view360@4.0.0-beta.6:
+    resolution: {integrity: sha512-WMN0f4HCP3Hr9DzREGuQwgpDb/lWxucSUdiKLwybOb3IlkzMSKlB5B9i/aEIJsO5ar29vxTkwNi1eVxlLnINCw==}
+    dependencies:
+      '@egjs/component': 3.0.4
+      '@egjs/imready': 1.4.1
+      '@types/webxr': 0.5.2
+      gl-matrix: 3.4.3
     dev: false
 
   /@emotion/babel-plugin@11.11.0:
@@ -953,6 +984,10 @@ packages:
 
   /@types/use-sync-external-store@0.0.3:
     resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
+    dev: false
+
+  /@types/webxr@0.5.2:
+    resolution: {integrity: sha512-szL74BnIcok9m7QwYtVmQ+EdIKwbjPANudfuvDrAF8Cljg9MKUlIoc1w5tjj9PMpeSH3U1Xnx//czQybJ0EfSw==}
     dev: false
 
   /@typescript-eslint/parser@5.59.2(eslint@8.34.0)(typescript@5.0.4):
@@ -2035,6 +2070,10 @@ packages:
   /get-tsconfig@4.5.0:
     resolution: {integrity: sha512-MjhiaIWCJ1sAU4pIQ5i5OfOuHHxVo1oYeNsWTON7jxYkod8pHocXeh+SSbmu5OZZZK73B6cbJ2XADzXehLyovQ==}
     dev: true
+
+  /gl-matrix@3.4.3:
+    resolution: {integrity: sha512-wcCp8vu8FT22BnvKVPjXa/ICBWRq/zjFfdofZy1WSpQZpphblv12/bOQLBC1rMM7SGOFS9ltVmKOHil5+Ml7gA==}
+    dev: false
 
   /glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
