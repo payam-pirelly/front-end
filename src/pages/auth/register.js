@@ -1,18 +1,11 @@
 import Head from "next/head";
 import NextLink from "next/link";
-import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
-import { useAuth } from "src/hooks/use-auth";
 import { Layout as AuthLayout } from "src/layouts/auth/layout";
-import { useDispatch } from "react-redux";
-import { registerApi } from "src/redux/auth-slice";
 
 const Page = () => {
-  const router = useRouter();
-  const auth = useAuth();
-  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -29,11 +22,7 @@ const Page = () => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        // await auth.signUp(values.email, values.name, values.password);
-        // router.push("/");
-        const { email, username, password, phone } = values;
-        const data = { email, username, password, phone };
-        dispatch(registerApi(data));
+        
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });

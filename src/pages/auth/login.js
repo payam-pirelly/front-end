@@ -18,15 +18,20 @@ import {
 } from "@mui/material";
 import { useAuth } from "src/hooks/use-auth";
 import { Layout as AuthLayout } from "src/layouts/auth/layout";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "src/redux/auth-slice";
-import { useEffect } from "react";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  connectAuthEmulator,
+} from "firebase/auth";
+import { firebaseApp } from "src/firebase/app";
 
 const Page = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
   const auth = useAuth();
+  const firebaseAuth = getAuth(firebaseApp);
   const [method, setMethod] = useState("email");
   const formik = useFormik({
     initialValues: {
@@ -45,7 +50,7 @@ const Page = () => {
           email: email,
           password: password,
         };
-        dispatch(login(data));
+        loginEmailPassword(data);
 
         // await auth.signIn(values.email, values.password);
         // router.push("/");
@@ -64,12 +69,26 @@ const Page = () => {
 
   const handleSkip = useCallback(() => {}, [auth, router]);
 
-  useEffect(() => {
-    if (token !== undefined && token !== "") {
+  // Login using email/password
+  const loginEmailPassword = async (data) => {
+    const loginEmail = data?.email;
+    const loginPassword = data?.password;
+
+    // step 2: add error handling
+    try {
+      const { user, _tokenResponse } = await signInWithEmailAndPassword(
+        firebaseAuth,
+        loginEmail,
+        loginPassword
+      );
       router.push("/");
       auth.skip();
+      console.log(user, _tokenResponse);
+    } catch (error) {
+      console.log(`There was an error: ${error}`);
+      // showLoginError(error);
     }
-  }, [token]);
+  };
 
   return (
     <>
