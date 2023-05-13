@@ -4,20 +4,20 @@ import { useDispatch, useSelector } from "react-redux";
 import ShowWindowDimensions from "src/utils/resize";
 
 import Image from "next/image";
-import { Box, Tooltip, IconButton, FormControl, FormControlLabel, Switch } from "@mui/material";
-import { toggledCarIndex, toggledCarStatus } from "src/redux/car-slice";
+import { Box, Tooltip, IconButton } from "@mui/material";
+import { toggledCarIndex } from "src/redux/car-slice";
 import EffectIcon from "src/components/effect-icon";
 
 const Car360Viewer = () => {
   //Selector
   const cars = useSelector((state) => state.car?.car);
+  const { isHotspot } = useSelector((state) => state.car);
 
   //Ref
   const ref = useRef();
 
   //Custom
   const carsLength = cars?.length;
-  const [hotspots, setHotspots] = useState(false);
   const dispatch = useDispatch();
   const [drag, setDrag] = useState(false);
   const { width, height } = ShowWindowDimensions();
@@ -48,17 +48,9 @@ const Car360Viewer = () => {
     dispatch(toggledCarIndex(data));
   };
 
-  const handleChange = () => {
-    setHotspots((previous) => !previous);
-  };
-
-  const handleClick = () => {
-    dispatch(toggledCarStatus("fullWidth"));
-  };
-
   return (
     <>
-      <div className="car_rotate" onClick={handleClick}>
+      <div className="car_rotate">
         <div style={{ zIndex: 10 }}>
           {cars.map((i, key) => (
             <Box key={key} ref={ref}>
@@ -74,7 +66,7 @@ const Car360Viewer = () => {
                 src={`/images/${i?.image}.jpg`}
                 style={{
                   objectFit: "contain",
-                  height: "auto",
+                  // height: "auto",
                   maxHeight: height,
                   borderRadius: 10,
                   cursor: drag ? "grabbing" : "grab",
@@ -84,7 +76,7 @@ const Car360Viewer = () => {
                 width={width}
                 height={height}
               />
-              {i?.detail && hotspots && (
+              {i?.detail && isHotspot && (
                 <Box
                   sx={{
                     position: "absolute",
@@ -106,12 +98,6 @@ const Car360Viewer = () => {
             </Box>
           ))}
         </div>
-        <FormControl component="fieldset" variant="standard">
-          <FormControlLabel
-            control={<Switch checked={hotspots} onChange={handleChange} name="HOTSPOTS" />}
-            label="HOTSPOTS"
-          />
-        </FormControl>
       </div>
     </>
   );

@@ -1,18 +1,18 @@
-import { Card, Fab, Grid, Tooltip } from "@mui/material";
+import { Card, Grid } from "@mui/material";
 import Head from "next/head";
 import React from "react";
 import { Box, Container } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
-import { toggledCarStatus, toggledFullScreen } from "src/redux/car-slice";
+import { toggledFullScreen } from "src/redux/car-slice";
 import CarItem from "src/sections/car/car-item";
 import { useMemo } from "react";
 import ResponsiveAppBar from "src/sections/car/app-bar";
 import ShowWindowDimensions from "src/utils/resize";
-import FullscreenRoundedIcon from "@mui/icons-material/FullscreenRounded";
 import { enterFullScreen, exitFullscreen } from "src/utils/fullscreen";
 import Car360Viewer from "src/sections/car/car-360-viewer";
-import CarHorizontalList from "src/sections/car/car-horizontal-list";
-import FullscreenExitRoundedIcon from "@mui/icons-material/FullscreenExitRounded";
+import CarControls from "src/sections/car/car-controllers";
+import Panorama from "src/sections/car/panorama";
+import LeftDrawer from "src/sections/car/left-drawer";
 
 export default function Iframe() {
   const { carStatus, fullScreen } = useSelector((state) => state.car);
@@ -22,12 +22,12 @@ export default function Iframe() {
 
   const renderContent = useMemo(() => {
     switch (carStatus) {
-      case "carList":
-        return <ShowCars />;
       case "car360":
         return <Car360Viewer />;
       case "carItem":
         return <CarItem />;
+      case "panorama":
+        return <Panorama />;
       default:
         return <Car360Viewer />;
     }
@@ -51,16 +51,17 @@ export default function Iframe() {
       <ResponsiveAppBar />
       <Box
         component="main"
+        display={"flex"}
+        alignItems={"center"}
         sx={{
           flexGrow: 1,
-          // my: 1,
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth={"100%"}>
           <Grid container sx={{ flex: "1 1 auto" }} justifyContent={"center"}>
             <Grid
               item
-              xl={12}
+              xs={12}
               maxHeight={height}
               sx={{
                 display: "flex",
@@ -73,67 +74,18 @@ export default function Iframe() {
                   display: "flex",
                   flexDirection: "column",
                   height: "100%",
-                  alignSelf: "center",
+                  // alignSelf: "center",
                 }}
                 id="card"
               >
-                {/* <CardHeader
-                  avatar={
-                    <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                      B
-                    </Avatar>
-                  }
-                  action={
-                    <>
-                      {carStatus !== "car360" && (
-                        <IconButton aria-label="settings">
-                          <CloseIcon top={0} right={0} />
-                        </IconButton>
-                      )}
-                    </>
-                  }
-                  title="2021 BMW 430i xDrive"
-                  subheader="18.2k miles"
-                /> */}
                 {renderContent}
-                <Tooltip title={fullScreen ? "minimize" : "maximize"}>
-                  <Fab
-                    onClick={handleClick}
-                    color="info"
-                    aria-label="Fullscreen"
-                    sx={{
-                      position: "absolute",
-                      bottom: 0,
-                      right: 50,
-                      color: "white",
-                    }}
-                  >
-                    {fullScreen ? <FullscreenExitRoundedIcon /> : <FullscreenRoundedIcon />}
-                  </Fab>
-                </Tooltip>
-                {/* <CarHorizontalList /> */}
+                <CarControls handleClick={handleClick} />
               </Card>
             </Grid>
           </Grid>
-          {/* <Box py={1} textAlign={"center"}>
-            <Button
-              onClick={() => {
-                if (carStatus === "carList") dispatch(toggledCarStatus("car360"));
-                else dispatch(toggledCarStatus("carList"));
-              }}
-              fullWidth={false}
-              startIcon={
-                <SvgIcon fontSize="small">
-                  <PlusIcon />
-                </SvgIcon>
-              }
-              variant="contained"
-            >
-              more cars
-            </Button>
-          </Box> */}
         </Container>
       </Box>
+      {<LeftDrawer />}
     </>
   );
 }

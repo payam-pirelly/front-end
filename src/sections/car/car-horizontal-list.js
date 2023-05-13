@@ -14,33 +14,32 @@ export default function CarHorizontalList() {
   };
 
   return (
-    <Box sx={{ position: "absolute", bottom: 0, width: "100%" }}>
-      <ImageList
-        sx={{
-          gridAutoFlow: "column",
-          gridTemplateColumns: "repeat(auto-fit, minmax(160px,1fr)) !important",
-          gridAutoColumns: "minmax(160px, 1fr)",
-        }}
-      >
-        {cars?.map((image, id) => (
-          <ImageListItem
-            onClick={() => handleOnClick(image?.image)}
-            key={id}
-            sx={{
-              cursor: "pointer",
+    <ImageList
+      sx={{
+        display: "grid",
+        flexDirection: "column",
+        // gridTemplateColumns: "repeat(1, 1fr)",
+      }}
+    >
+      {cars?.map((image, id) => (
+        <ImageListItem
+          onClick={() => handleOnClick(image?.image)}
+          key={id}
+          sx={{
+            cursor: "pointer",
+          }}
+        >
+          <img
+            src={`/images/${image?.image}.jpg`}
+            style={{
+              borderRadius: 10,
+              border: carIndex === image?.image ? "3px double #32a1ce" : "none",
+              width: 300,
             }}
-          >
-            <img
-              src={`/images/${image?.image}.jpg`}
-              style={{
-                borderRadius: 10,
-                border: carIndex === image?.image ? "3px double #32a1ce" : "none",
-              }}
-            />
-            <ImageListItemBar title={image.title} />
-          </ImageListItem>
-        ))}
-      </ImageList>
-    </Box>
+          />
+          <ImageListItemBar title={image.title} />
+        </ImageListItem>
+      ))}
+    </ImageList>
   );
 }

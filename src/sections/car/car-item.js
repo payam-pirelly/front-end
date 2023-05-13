@@ -1,14 +1,11 @@
+
 import React from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import Image from "next/image";
 import ShowWindowDimensions from "src/utils/resize";
-import { IconButton } from "@mui/material";
 import { toggledCarIndex } from "src/redux/car-slice";
-import { Box } from "@mui/system";
-import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 
 const CarItem = () => {
   //Selector

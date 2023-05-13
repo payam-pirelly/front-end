@@ -6,7 +6,8 @@ const initialState = {
   carIndex: 1,
   carStatus: "360Item",
   fullScreen: false,
-  fullScreenContent: "",
+  isHotspot: true,
+  leftSideBar: false,
 };
 
 const carSlice = createSlice({
@@ -23,8 +24,20 @@ const carSlice = createSlice({
     toggledFullScreen: (state, { payload }) => {
       state.fullScreen = payload;
     },
+    toggledIsHotspot: (state) => {
+      state.isHotspot = !state.isHotspot;
+    },
+    toggledLeftSideBar: (state, { payload }) => {
+      state.leftSideBar = payload;
+    },
   },
 });
 
 export default carSlice.reducer;
-export const { toggledCarIndex, toggledFullScreen, toggledCarStatus } = carSlice.actions;
+export const {
+  toggledCarIndex,
+  toggledFullScreen,
+  toggledCarStatus,
+  toggledIsHotspot,
+  toggledLeftSideBar,
+} = carSlice.actions;
