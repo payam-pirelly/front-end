@@ -8,6 +8,7 @@ import {
   Alert,
   Box,
   Button,
+  CircularProgress,
   FormHelperText,
   Link,
   Stack,
@@ -18,12 +19,16 @@ import {
 } from "@mui/material";
 import { useAuth } from "src/hooks/use-auth";
 import { Layout as AuthLayout } from "src/layouts/auth/layout";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseAuth } from "src/firebase/app";
+import SimpleSnackbar from "src/components/snackbar";
 
 const Page = () => {
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   const auth = useAuth();
+  const [message, setMessage] = useState("");
   const [method, setMethod] = useState("email");
   const formik = useFormik({
     initialValues: {
@@ -63,6 +68,7 @@ const Page = () => {
 
   // Login using email/password
   const loginEmailPassword = async (data) => {
+    setLoading(true);
     const loginEmail = data?.email;
     const loginPassword = data?.password;
 
@@ -76,9 +82,12 @@ const Page = () => {
       router.push("/");
       auth.skip();
       console.log(user, _tokenResponse);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
+      setOpen(true);
+      setMessage(error?.message);
       console.log(`There was an error: ${error}`);
-      // showLoginError(error);
     }
   };
 
@@ -156,7 +165,7 @@ const Page = () => {
                   </Typography>
                 )}
                 <Button fullWidth size="large" sx={{ mt: 3 }} type="submit" variant="contained">
-                  Continue
+                  {loading ? <CircularProgress color="inherit" /> : "Continue"}
                 </Button>
                 <Button fullWidth size="large" sx={{ mt: 3 }} onClick={handleSkip}>
                   Skip authentication
@@ -181,6 +190,7 @@ const Page = () => {
           </div>
         </Box>
       </Box>
+      <SimpleSnackbar open={open} setOpen={setOpen} message={message} />
     </>
   );
 };
