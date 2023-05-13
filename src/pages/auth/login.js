@@ -18,20 +18,12 @@ import {
 } from "@mui/material";
 import { useAuth } from "src/hooks/use-auth";
 import { Layout as AuthLayout } from "src/layouts/auth/layout";
-import {
-  getAuth,
-  onAuthStateChanged,
-  signOut,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  connectAuthEmulator,
-} from "firebase/auth";
-import { firebaseApp } from "src/firebase/app";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { firebaseAuth } from "src/firebase/app";
 
 const Page = () => {
   const router = useRouter();
   const auth = useAuth();
-  const firebaseAuth = getAuth(firebaseApp);
   const [method, setMethod] = useState("email");
   const formik = useFormik({
     initialValues: {

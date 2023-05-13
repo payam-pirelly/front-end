@@ -1,31 +1,28 @@
-import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import PropTypes from "prop-types";
 import { Box, Divider, MenuItem, MenuList, Popover, Typography } from "@mui/material";
 import { useAuth } from "src/hooks/use-auth";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "src/redux/auth-slice";
-import { useEffect } from "react";
+
+import { signOut, } from "firebase/auth";
+import { firebaseAuth } from "src/firebase/app";
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open } = props;
   const router = useRouter();
   const auth = useAuth();
-  const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
 
-  const handleSignOut = useCallback(() => {
-    onClose?.();
-    auth.signOut();
-    dispatch(logout());
-  }, [onClose, auth, router]);
-
-  useEffect(() => {
-    if (token === undefined) {
-      console.log(token);
+  // signout
+  const handleSignOut = async () => {
+    try {
+      await signOut(firebaseAuth);
+      onClose();
+      auth.signOut();
+      auth.skip();
       router.push("/auth/login");
+    } catch (error) {
+      console.log(`There was an error: ${error}`);
     }
-  }, [token]);
+  };
 
   return (
     <Popover

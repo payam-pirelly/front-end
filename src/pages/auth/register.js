@@ -4,8 +4,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { Layout as AuthLayout } from "src/layouts/auth/layout";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { firebaseAuth } from "src/firebase/app";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -21,8 +25,8 @@ const Page = () => {
       password: Yup.string().max(255).required("Password is required"),
     }),
     onSubmit: async (values, helpers) => {
+      registerEmailPassword(values);
       try {
-        
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
@@ -30,6 +34,22 @@ const Page = () => {
       }
     },
   });
+
+  // Register using email/password
+  const registerEmailPassword = async (data) => {
+    const { email, password } = data;
+
+    // step 2: add error handling
+    try {
+      const data = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+      router.push("/");
+      auth.skip();
+      console.log(data);
+    } catch (error) {
+      console.log(`There was an error: ${error}`);
+      // showLoginError(error);
+    }
+  };
 
   return (
     <>
