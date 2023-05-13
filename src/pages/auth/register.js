@@ -6,6 +6,7 @@ import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { Layout as AuthLayout } from "src/layouts/auth/layout";
 import { firebaseAuth } from "src/firebase/app";
 import { useRouter } from "next/navigation";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const Page = () => {
   const router = useRouter();
@@ -46,7 +47,6 @@ const Page = () => {
       console.log(data);
     } catch (error) {
       console.log(`There was an error: ${error}`);
-      // showLoginError(error);
     }
   };
 
@@ -139,6 +139,7 @@ const Page = () => {
           </div>
         </Box>
       </Box>
+      {/* {open && <SimpleSnackbar open={open} setOpen={setOpen} message={message} />} */}
     </>
   );
 };
