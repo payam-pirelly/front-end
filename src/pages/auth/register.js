@@ -4,7 +4,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { Layout as AuthLayout } from "src/layouts/auth/layout";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { firebaseAuth } from "src/firebase/app";
 import { useRouter } from "next/navigation";
 
