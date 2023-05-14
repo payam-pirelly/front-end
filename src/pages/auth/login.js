@@ -19,15 +19,28 @@ import {
 } from "@mui/material";
 import { useAuth } from "src/hooks/use-auth";
 import { Layout as AuthLayout } from "src/layouts/auth/layout";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  FacebookAuthProvider,
+  signInWithPopup,
+  signInWithPhoneNumber,
+  RecaptchaVerifier,
+} from "firebase/auth";
 import { firebaseAuth } from "src/firebase/app";
 import SimpleSnackbar from "src/components/snackbar";
+import { useEffect } from "react";
+
+const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const auth = useAuth();
+
   const [message, setMessage] = useState("");
   const [method, setMethod] = useState("email");
   const formik = useFormik({
@@ -42,12 +55,7 @@ const Page = () => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        const { email, password } = values;
-        const data = {
-          email: email,
-          password: password,
-        };
-        loginEmailPassword(data);
+        loginEmailPassword(values);
 
         // await auth.signIn(values.email, values.password);
         // router.push("/");
@@ -72,7 +80,6 @@ const Page = () => {
     const loginEmail = data?.email;
     const loginPassword = data?.password;
 
-    // step 2: add error handling
     try {
       const { user, _tokenResponse } = await signInWithEmailAndPassword(
         firebaseAuth,
@@ -89,6 +96,36 @@ const Page = () => {
       setMessage(error?.message);
       console.log(`There was an error: ${error}`);
     }
+  };
+
+  useEffect(() => {
+    onAuthStateChanged(firebaseAuth, (user) => {
+      console.log("Auth tate change:" + user);
+    });
+  }, []);
+
+  const handleSignInRequest = () => {
+    signInWithPopup(firebaseAuth, googleProvider).then((result) => {
+      console.log("got popup result");
+      // this gives you a google access token. you can use it to access the google credential
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      if (credential) {
+        console.log(credential);
+        console.log(result);
+      }
+    });
+  };
+
+  const handleSignInFacebookRequest = () => {
+    signInWithPopup(firebaseAuth, facebookProvider).then((result) => {
+      console.log("got popup result");
+      // this gives you a google access token. you can use it to access the google credential
+      const credential = FacebookAuthProvider.credentialFromResult(result);
+      if (credential) {
+        console.log(credential);
+        console.log(result);
+      }
+    });
   };
 
   return (
@@ -166,6 +203,24 @@ const Page = () => {
                 )}
                 <Button fullWidth size="large" sx={{ mt: 3 }} type="submit" variant="contained">
                   {loading ? <CircularProgress color="inherit" /> : "Continue"}
+                </Button>
+                <Button
+                  fullWidth
+                  size="large"
+                  onClick={handleSignInRequest}
+                  sx={{ mt: 3 }}
+                  variant="contained"
+                >
+                  Google Authentication
+                </Button>
+                <Button
+                  fullWidth
+                  size="large"
+                  onClick={handleSignInFacebookRequest}
+                  sx={{ mt: 3 }}
+                  variant="contained"
+                >
+                  Facebook Authentication
                 </Button>
                 <Button fullWidth size="large" sx={{ mt: 3 }} onClick={handleSkip}>
                   Skip authentication
