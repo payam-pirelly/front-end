@@ -2,7 +2,7 @@ import { alpha } from "@mui/material/styles";
 
 const withAlphas = (color) => {
   return {
-    ...colors,
+    ...color,
     alpha4: alpha(color.main, 0.04),
     alpha8: alpha(color.main, 0.08),
     alpha12: alpha(color.main, 0.12),
