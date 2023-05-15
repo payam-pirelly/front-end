@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseApp = initializeApp({
-  apiKey: "AIzaSyCvZfYeRGSFLVPfSSVYEPcir8BO-dXAfsA",
-  authDomain: "test-project-c06c5.firebaseapp.com",
-  projectId: "test-project-c06c5",
-  storageBucket: "dummy-authDomain.firebaseapp.com",
-  messagingSenderId: "123456789012",
-  appId: "1:123456789012:web:7c7abae699b868b7f896ec",
-  measurementId: "G-ABCDEFGHIJ",
+  apiKey: "AIzaSyCEPNoOUcY2UCHsTf1r2c3zxaJOw-DbJxo",
+  authDomain: "pirelly360.firebaseapp.com",
+  projectId: "pirelly360",
+  storageBucket: "",
+  messagingSenderId: "187498481907",
+  appId: "",
+  measurementId: "",
 });
 
 export const firebaseAuth = getAuth(firebaseApp);

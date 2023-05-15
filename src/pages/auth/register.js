@@ -6,22 +6,22 @@ import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { Layout as AuthLayout } from "src/layouts/auth/layout";
 import { firebaseAuth } from "src/firebase/app";
 import { useRouter } from "next/navigation";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { sendEmailVerification, createUserWithEmailAndPassword } from "firebase/auth";
+import SimpleSnackbar from "src/components/snackbar";
+import { useState } from "react";
 
 const Page = () => {
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState(false);
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
       email: "",
-      username: "",
-      phone: "",
       password: "",
       submit: null,
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
-      username: Yup.string().max(255).required("Name is required"),
-      phone: Yup.string().max(25).required("phone is required"),
       password: Yup.string().max(255).required("Password is required"),
     }),
     onSubmit: async (values, helpers) => {
@@ -39,11 +39,14 @@ const Page = () => {
   const registerEmailPassword = async (data) => {
     const { email, password } = data;
 
-    // step 2: add error handling
     try {
       const data = await createUserWithEmailAndPassword(firebaseAuth, email, password);
-      router.push("/");
-      auth.skip();
+      sendEmailVerification(firebaseAuth?.currentUser).then(() => {
+        setOpen(true);
+        setMessage("we send a email to verify your email. please open it.");
+      });
+      // router.push("/");
+      // auth.skip();
       console.log(data);
     } catch (error) {
       console.log(`There was an error: ${error}`);
@@ -84,16 +87,6 @@ const Page = () => {
             <form noValidate onSubmit={formik.handleSubmit}>
               <Stack spacing={3}>
                 <TextField
-                  error={!!(formik.touched.username && formik.errors.username)}
-                  fullWidth
-                  helperText={formik.touched.username && formik.errors.username}
-                  label="Name"
-                  name="username"
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={formik.values.username}
-                />
-                <TextField
                   error={!!(formik.touched.email && formik.errors.email)}
                   fullWidth
                   helperText={formik.touched.email && formik.errors.email}
@@ -103,17 +96,6 @@ const Page = () => {
                   onChange={formik.handleChange}
                   type="email"
                   value={formik.values.email}
-                />
-                <TextField
-                  error={!!(formik.touched.phone && formik.errors.phone)}
-                  fullWidth
-                  helperText={formik.touched.phone && formik.errors.phone}
-                  label="Phone"
-                  name="phone"
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  type="string"
-                  value={formik.values.phone}
                 />
                 <TextField
                   error={!!(formik.touched.password && formik.errors.password)}
@@ -139,10 +121,14 @@ const Page = () => {
           </div>
         </Box>
       </Box>
-      {/* {open && <SimpleSnackbar open={open} setOpen={setOpen} message={message} />} */}
+      {open && <SimpleSnackbar open={open} setOpen={setOpen} message={message} />}
     </>
   );
 };
+
+function storeEmailInStorage(email) {
+  window.localStorage.setItem("EMAIL_LOCAL_STORAGE_KEY", email);
+}
 
 Page.getLayout = (page) => <AuthLayout>{page}</AuthLayout>;
 

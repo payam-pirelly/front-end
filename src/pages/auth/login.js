@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
-  Alert,
   Box,
   Button,
   CircularProgress,
@@ -25,12 +24,14 @@ import {
   onAuthStateChanged,
   FacebookAuthProvider,
   signInWithPopup,
-  signInWithPhoneNumber,
   RecaptchaVerifier,
+  isSignInWithEmailLink,
 } from "firebase/auth";
 import { firebaseAuth } from "src/firebase/app";
 import SimpleSnackbar from "src/components/snackbar";
 import { useEffect } from "react";
+import LoginMobile from "src/sections/auth/loginMobile";
+import ForgotPassword from "src/sections/auth/forgot-password";
 
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
@@ -72,8 +73,6 @@ const Page = () => {
     setMethod(value);
   }, []);
 
-  const handleSkip = useCallback(() => {}, [auth, router]);
-
   // Login using email/password
   const loginEmailPassword = async (data) => {
     setLoading(true);
@@ -105,27 +104,33 @@ const Page = () => {
   }, []);
 
   const handleSignInRequest = () => {
-    signInWithPopup(firebaseAuth, googleProvider).then((result) => {
-      console.log("got popup result");
-      // this gives you a google access token. you can use it to access the google credential
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      if (credential) {
-        console.log(credential);
-        console.log(result);
-      }
-    });
+    signInWithPopup(firebaseAuth, googleProvider)
+      .then((result) => {
+        console.log("got popup result");
+        // this gives you a google access token. you can use it to access the google credential
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        if (credential) {
+          router.push("/");
+          auth.skip();
+          console.log(credential);
+          console.log(result);
+        }
+      })
+      .catch((e) => console.log(e));
   };
 
   const handleSignInFacebookRequest = () => {
-    signInWithPopup(firebaseAuth, facebookProvider).then((result) => {
-      console.log("got popup result");
-      // this gives you a google access token. you can use it to access the google credential
-      const credential = FacebookAuthProvider.credentialFromResult(result);
-      if (credential) {
-        console.log(credential);
-        console.log(result);
-      }
-    });
+    signInWithPopup(firebaseAuth, facebookProvider)
+      .then((result) => {
+        console.log("got popup result");
+        // this gives you a google access token. you can use it to access the google credential
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        if (credential) {
+          console.log(credential);
+          console.log(result);
+        }
+      })
+      .catch((e) => console.log(e?.message));
   };
 
   return (
@@ -168,6 +173,7 @@ const Page = () => {
             <Tabs onChange={handleMethodChange} sx={{ mb: 3 }} value={method}>
               <Tab label="Email" value="email" />
               <Tab label="Phone Number" value="phoneNumber" />
+              <Tab label="Forgot Password" value="forgotPassword" />
             </Tabs>
             {method === "email" && (
               <form noValidate onSubmit={formik.handleSubmit}>
@@ -195,7 +201,9 @@ const Page = () => {
                     value={formik.values.password}
                   />
                 </Stack>
-                <FormHelperText sx={{ mt: 1 }}>Optionally you can skip.</FormHelperText>
+                <Button onClick={() => setMethod("forgotPassword")}>
+                  <FormHelperText>Forgot password?</FormHelperText>
+                </Button>
                 {formik.errors.submit && (
                   <Typography color="error" sx={{ mt: 3 }} variant="body2">
                     {formik.errors.submit}
@@ -222,26 +230,10 @@ const Page = () => {
                 >
                   Facebook Authentication
                 </Button>
-                <Button fullWidth size="large" sx={{ mt: 3 }} onClick={handleSkip}>
-                  Skip authentication
-                </Button>
-                <Alert color="primary" severity="info" sx={{ mt: 3 }}>
-                  <div>
-                    You can use <b>demo@devias.io</b> and password <b>Password123!</b>
-                  </div>
-                </Alert>
               </form>
             )}
-            {method === "phoneNumber" && (
-              <div>
-                <Typography sx={{ mb: 1 }} variant="h6">
-                  Not available in the demo
-                </Typography>
-                <Typography color="text.secondary">
-                  To prevent unnecessary costs we disabled this feature in the demo.
-                </Typography>
-              </div>
-            )}
+            {method === "phoneNumber" && <LoginMobile />}
+            {method === "forgotPassword" && <ForgotPassword />}
           </div>
         </Box>
       </Box>
@@ -251,5 +243,12 @@ const Page = () => {
 };
 
 Page.getLayout = (page) => <AuthLayout>{page}</AuthLayout>;
+
+function getAuthUrl() {
+  const origin = window.location.origin;
+  const path = "/auth/link";
+
+  return [origin, path].join("");
+}
 
 export default Page;
