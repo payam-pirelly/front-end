@@ -30,8 +30,10 @@ import {
 import { firebaseAuth } from "src/firebase/app";
 import SimpleSnackbar from "src/components/snackbar";
 import { useEffect } from "react";
-import LoginMobile from "src/sections/auth/loginMobile";
+import LoginMobile from "src/sections/auth/login-mobile";
 import ForgotPassword from "src/sections/auth/forgot-password";
+import GoogleIcon from "src/components/icon/google-icon";
+import FacebookIcon from "src/components/icon/facebook-icon";
 
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
@@ -128,6 +130,8 @@ const Page = () => {
         if (credential) {
           console.log(credential);
           console.log(result);
+          router.push("/");
+          auth.skip();
         }
       })
       .catch((e) => console.log(e?.message));
@@ -213,6 +217,7 @@ const Page = () => {
                   {loading ? <CircularProgress color="inherit" /> : "Continue"}
                 </Button>
                 <Button
+                  startIcon={<GoogleIcon />}
                   fullWidth
                   size="large"
                   onClick={handleSignInRequest}
@@ -222,6 +227,7 @@ const Page = () => {
                   Google Authentication
                 </Button>
                 <Button
+                  startIcon={<FacebookIcon />}
                   fullWidth
                   size="large"
                   onClick={handleSignInFacebookRequest}
