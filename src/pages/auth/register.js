@@ -2,16 +2,20 @@ import Head from "next/head";
 import NextLink from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControlLabel, Link, Stack, TextField, Typography } from "@mui/material";
 import { Layout as AuthLayout } from "src/layouts/auth/layout";
 import { firebaseAuth } from "src/firebase/app";
 import { useRouter } from "next/navigation";
 import { sendEmailVerification, createUserWithEmailAndPassword } from "firebase/auth";
 import SimpleSnackbar from "src/components/snackbar";
 import { useState } from "react";
+import Checkbox from "@mui/material/Checkbox";
+import ScrollDialog from "src/components/scroll-dialog";
 
 const Page = () => {
   const [open, setOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [checkbox, setCheckbox] = useState(false);
   const [message, setMessage] = useState(false);
   const router = useRouter();
   const formik = useFormik({
@@ -45,18 +49,23 @@ const Page = () => {
         setOpen(true);
         setMessage("we send a email to verify your email. please open it.");
       });
-      // router.push("/");
-      // auth.skip();
+      router.push("/");
+      auth.skip();
       console.log(data);
     } catch (error) {
       console.log(`There was an error: ${error}`);
     }
   };
 
+  const handleChange = () => {
+    setCheckbox(!checkbox);
+    setOpenDialog(true);
+  };
+
   return (
     <>
       <Head>
-        <title>Register | Devi's Kit</title>
+        <title>Register | Pirelly</title>
       </Head>
       <Box
         sx={{
@@ -114,6 +123,10 @@ const Page = () => {
                   {formik.errors.submit}
                 </Typography>
               )}
+              <FormControlLabel
+                control={<Checkbox checked={checkbox} onChange={handleChange} name="checkbox" />}
+                label="Pirelly instructions, you should agree whit them!"
+              />
               <Button fullWidth size="large" sx={{ mt: 3 }} type="submit" variant="contained">
                 Continue
               </Button>
@@ -122,6 +135,7 @@ const Page = () => {
         </Box>
       </Box>
       {open && <SimpleSnackbar open={open} setOpen={setOpen} message={message} />}
+      <ScrollDialog open={openDialog} setOpen={(data) => setOpenDialog(data)} />
     </>
   );
 };
