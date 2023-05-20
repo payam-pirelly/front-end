@@ -4,7 +4,7 @@ import { carData } from "src/utils/carData";
 const initialState = {
   car: carData,
   carIndex: 1,
-  carStatus: "360Item",
+  carStatus: "main",
   fullScreen: false,
   isHotspot: true,
   leftSideBar: false,
