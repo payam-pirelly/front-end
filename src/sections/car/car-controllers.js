@@ -1,37 +1,19 @@
-import { Fab, Tooltip } from "@mui/material";
+import { IconButton, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import { styled } from "@mui/material/styles";
-import FullscreenExitRoundedIcon from "@mui/icons-material/FullscreenExitRounded";
-import FullscreenRoundedIcon from "@mui/icons-material/FullscreenRounded";
-import SubwayRoundedIcon from "@mui/icons-material/SubwayRounded";
-import CarCrashRoundedIcon from "@mui/icons-material/CarCrashRounded";
 import { useDispatch, useSelector } from "react-redux";
-import { toggledCarStatus, toggledIsHotspot, toggledLeftSideBar } from "src/redux/car-slice";
-import SyncRoundedIcon from "@mui/icons-material/SyncRounded";
-import ViewListRoundedIcon from "@mui/icons-material/ViewListRounded";
+import { toggledCarStatus, toggledIsHotspot } from "src/redux/car-slice";
+import OverviewIcon from "src/components/icon/overview-icon";
+import WarrantyIcon from "src/components/icon/warranty-icon";
+import WindowStickerIcon from "src/components/icon/window-sticker-icon";
+import CarFaxIcon from "src/components/icon/carfax-icon";
 
-const RightRoot = styled("div")(({ theme: { spacing } }) => ({
-  // "& > *": {
-  //   margin: spacing(1),
-  // },
-  bottom: 0,
-  display: "grid",
+const RightRoot = styled("div")(({}) => ({
+  top: "30%",
+  display: "flex",
   flexDirection: "column",
-  gridTemplateColumns: "repeat(2,1fr)",
-  position: "fixed",
+  position: "absolute",
   right: 0,
-}));
-
-const LeftRoot = styled("div")(({ theme: { spacing } }) => ({
-  // "& > *": {
-  //   margin: spacing(1),
-  // },
-  bottom: 0,
-  display: "grid",
-  flexDirection: "column",
-  gridTemplateColumns: "repeat(2,1fr)",
-  position: "fixed",
-  left: 0,
 }));
 
 function CarControls({ handleClick }) {
@@ -48,33 +30,58 @@ function CarControls({ handleClick }) {
 
   return (
     <>
-      <LeftRoot>
-        <Tooltip title={"car list"} sx={{ m: 1 }}>
-          <Fab onClick={() => dispatch(toggledLeftSideBar(true))} color="info">
-            <ViewListRoundedIcon />
-          </Fab>
+      <RightRoot sx={{ background: "#D9D9D9", borderRadius: 1, opacity: 0.9 }}>
+        <Tooltip title={"car in"}>
+          <IconButton sx={{ display: "block" }}>
+            <OverviewIcon />
+            <Typography
+              sx={{ color: "black", fontSize: "xx-small" }}
+              variant="caption"
+              display="block"
+              gutterBottom
+            >
+              OVERVIEW
+            </Typography>
+          </IconButton>
         </Tooltip>
-      </LeftRoot>
-      <RightRoot>
-        <Tooltip title={"car in"} sx={{ m: 1 }}>
-          <Fab onClick={() => handleClickCarStatus("panorama")} color="info">
-            <SubwayRoundedIcon />
-          </Fab>
+        <Tooltip title={fullScreen ? "minimize" : "maximize"}>
+          <IconButton sx={{ display: "block" }}>
+            <WarrantyIcon />
+            <Typography
+              sx={{ color: "black", fontSize: "xx-small" }}
+              variant="caption"
+              display="block"
+              gutterBottom
+            >
+              WARRANTY
+            </Typography>
+          </IconButton>
         </Tooltip>
-        <Tooltip title={"car out 360"} sx={{ m: 1 }}>
-          <Fab onClick={() => handleClickCarStatus("car360")} color="info">
-            <SyncRoundedIcon />
-          </Fab>
+        <Tooltip title={"car out 360"}>
+          <IconButton sx={{ display: "block" }}>
+            <WindowStickerIcon />
+            <Typography
+              sx={{ color: "black", fontSize: "xx-small" }}
+              variant="caption"
+              display="block"
+              gutterBottom
+            >
+              WINDOW STICKER
+            </Typography>
+          </IconButton>
         </Tooltip>
-        <Tooltip title={fullScreen ? "minimize" : "maximize"} sx={{ m: 1 }}>
-          <Fab onClick={handleClick} color="info">
-            {fullScreen ? <FullscreenExitRoundedIcon /> : <FullscreenRoundedIcon />}
-          </Fab>
-        </Tooltip>
-        <Tooltip title={isHotspot ? "disable hotspot" : "enable hotspot"} sx={{ m: 1 }}>
-          <Fab onClick={handleClickHotspot} color="info">
-            <CarCrashRoundedIcon />
-          </Fab>
+        <Tooltip title={isHotspot ? "disable hotspot" : "enable hotspot"}>
+          <IconButton sx={{ display: "block" }}>
+            <CarFaxIcon />
+            <Typography
+              sx={{ color: "black", fontSize: "xx-small" }}
+              variant="caption"
+              display="block"
+              gutterBottom
+            >
+              CARFAX
+            </Typography>
+          </IconButton>
         </Tooltip>
       </RightRoot>
     </>

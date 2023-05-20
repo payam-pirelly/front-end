@@ -2,7 +2,6 @@ import * as React from "react";
 import { ImageList, ImageListItem, ImageListItemBar } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { toggledCarIndex } from "src/redux/car-slice";
-import { Box } from "@mui/system";
 
 export default function CarHorizontalList() {
   const cars = useSelector((state) => state.car?.car);

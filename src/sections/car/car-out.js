@@ -11,8 +11,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useMemo } from "react";
 import Panorama from "./panorama";
-import CarVerticalList from "./car-vertical-list";
 import CarControls from "./car-controllers";
+import ShowCars from "./show-cars";
 
 export default function CarOut() {
   const [value, setValue] = React.useState(0);
@@ -28,7 +28,7 @@ export default function CarOut() {
       case 1:
         return <Panorama />;
       case 2:
-        return <CarVerticalList />;
+        return <ShowCars />;
       case 3:
         return 4;
       default:
