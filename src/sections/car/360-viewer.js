@@ -1,3 +1,4 @@
+// extended by react-360-view
 import { Button } from "@mui/material";
 import React, { Component } from "react";
 

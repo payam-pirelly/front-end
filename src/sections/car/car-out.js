@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import Panorama from "./panorama";
 import ShowCars from "./show-cars";
 import CarButtons from "./car-buttons";
+import ThreeSixtyView from "./ThreeSixty";
 
 export default function CarOut() {
   const [value, setValue] = React.useState(0);
