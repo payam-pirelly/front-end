@@ -11,11 +11,11 @@ export function enterFullScreen(element) {
 }
 
 export function exitFullscreen() {
-  if (document.exitFullscreen) {
+  if (document?.exitFullscreen) {
     document.exitFullscreen();
-  } else if (document.mozCancelFullScreen) {
+  } else if (document?.mozCancelFullScreen) {
     document.mozCancelFullScreen();
-  } else if (document.webkitExitFullscreen) {
+  } else if (document?.webkitExitFullscreen) {
     document.webkitExitFullscreen();
   }
 }

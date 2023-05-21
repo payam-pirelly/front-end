@@ -1,7 +1,7 @@
 import { SvgIcon } from "@mui/material";
 import React from "react";
 
-export default function MaximizeIcon() {
+export default function MaximizeIcon({ ...props }) {
   return (
     <SvgIcon
       xmlns="http://www.w3.org/2000/svg"
@@ -9,6 +9,7 @@ export default function MaximizeIcon() {
       height="48"
       viewBox="0 0 48 48"
       fill="none"
+      {...props}
     >
       <g filter="url(#filter0_b_296_916)">
         <circle cx="24" cy="24" r="24" fill="#1862E3" fill-opacity="0.15" />

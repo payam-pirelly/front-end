@@ -7,6 +7,8 @@ import Image from "next/image";
 import { Box, Tooltip, IconButton } from "@mui/material";
 import { toggledCarIndex } from "src/redux/car-slice";
 import EffectIcon from "src/components/effect-icon";
+import MaximizeIcon from "src/components/icon/maximize-icon";
+import HotspotPointerIcon from "src/components/icon/hotspot-pointer-icon";
 
 const Car360Viewer = () => {
   //Selector
@@ -90,7 +92,7 @@ const Car360Viewer = () => {
                 >
                   <Tooltip title={i?.image}>
                     <IconButton onClick={() => handleOnClick(i?.detail)}>
-                      <EffectIcon />
+                      <HotspotPointerIcon />
                     </IconButton>
                   </Tooltip>
                 </Box>

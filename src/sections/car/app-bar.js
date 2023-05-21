@@ -65,11 +65,11 @@ function ResponsiveAppBar() {
             labelPlacement="start"
           />
         </Box>
-        <Box>
+        {/* <Box>
           <IconButton edge="start" onClick={handleClose} aria-label="close">
             <CloseIcon />
           </IconButton>
-        </Box>
+        </Box> */}
       </Box>
     </AppBar>
   );

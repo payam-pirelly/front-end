@@ -1,7 +1,7 @@
 import { SvgIcon } from "@mui/material";
 import React from "react";
 
-export default function ArrowIcon() {
+export default function ArrowDownIcon({ ...props }) {
   return (
     <SvgIcon
       xmlns="http://www.w3.org/2000/svg"
@@ -9,6 +9,7 @@ export default function ArrowIcon() {
       height="62"
       viewBox="0 0 62 62"
       fill="none"
+      {...props}
     >
       <circle cx="31" cy="31" r="31" fill="#1862E3" fill-opacity="0.07" />
       <path

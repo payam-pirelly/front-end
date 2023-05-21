@@ -1,18 +1,18 @@
 import React from "react";
 import Car360Viewer from "./car-360-viewer";
 import ResponsiveAppBar from "./app-bar";
-import ArrowIcon from "src/components/icon/arrow-icon";
 import { IconButton } from "@mui/material";
 import { Box } from "@mui/system";
-import InfoIcon from "src/components/icon/infoIcon";
+import InfoIcon from "src/components/icon/info-Icon";
 import MaximizeIcon from "src/components/icon/maximize-icon";
 import MinimizeIcon from "src/components/icon/minimize-icon";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useMemo } from "react";
 import Panorama from "./panorama";
-import CarControls from "./car-controllers";
 import ShowCars from "./show-cars";
+import IconLabelButton from "src/components/button/Icon-label-button";
+import CarButtons from "./car-buttons";
 
 export default function CarOut() {
   const [value, setValue] = React.useState(0);
@@ -44,23 +44,10 @@ export default function CarOut() {
         sx={{
           position: "absolute",
           top: "4rem",
-          right: "1rem",
-        }}
-      >
-        <IconButton>
-          <ArrowIcon />
-        </IconButton>
-      </Box>
-      <Box
-        sx={{
-          position: "absolute",
-          top: "4rem",
           left: "2rem",
         }}
       >
-        <IconButton>
-          <InfoIcon />
-        </IconButton>
+        <IconLabelButton icon={<InfoIcon />} title="info" />
       </Box>
       <Box
         sx={{
@@ -69,8 +56,8 @@ export default function CarOut() {
           left: "2rem",
         }}
       >
-        <IconButton>
-          <MaximizeIcon />
+        <IconButton sx={{ color: "white" }}>
+          <MaximizeIcon fontSize="large" />
         </IconButton>
       </Box>
       <Box
@@ -81,7 +68,7 @@ export default function CarOut() {
         }}
       >
         <IconButton>
-          <MinimizeIcon />
+          <MinimizeIcon fontSize="large" />
         </IconButton>
       </Box>
       <Box
@@ -109,7 +96,7 @@ export default function CarOut() {
           <Tab label="Walk Around" />
         </Tabs>
       </Box>
-      <CarControls />
+      <CarButtons />
     </>
   );
 }
