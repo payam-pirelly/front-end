@@ -16,7 +16,7 @@ export default function CarOut() {
   const renderContent = useMemo(() => {
     switch (value) {
       case 0:
-        return <Car360Viewer />;
+        return <ThreeSixtyView />;
       case 1:
         return <Panorama />;
       case 2:
