@@ -1,4 +1,4 @@
-import { IconButton, Tooltip, Typography, Box, Fade } from "@mui/material";
+import { IconButton, Tooltip, Typography, Box, Fade, Tabs, Tab } from "@mui/material";
 import React from "react";
 import { styled } from "@mui/material/styles";
 import OverviewIcon from "src/components/icon/overview-icon";
@@ -13,6 +13,10 @@ import { useState } from "react";
 import ArrowDownIcon from "src/components/icon/arrow-down-icon";
 import ArrowUpIcon from "src/components/icon/arrow-up-icon";
 import HotspotIcon from "src/components/icon/hotspot-icon";
+import IconLabelButton from "src/components/button/Icon-label-button";
+import InfoIcon from "src/components/icon/info-Icon";
+import MaximizeIcon from "src/components/icon/maximize-icon";
+import MinimizeIcon from "src/components/icon/minimize-icon";
 
 const RightRoot = styled("div")(({}) => ({
   top: "30%",
@@ -25,9 +29,10 @@ const RightRoot = styled("div")(({}) => ({
   justifyContent: "space-around",
 }));
 
-const CarButtons = () => {
+const CarButtons = ({ value, handleTabChange }) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
+
   const handleChange = () => {
     setChecked((prev) => !prev);
   };
@@ -36,7 +41,69 @@ const CarButtons = () => {
     exitFullscreen();
   };
 
-  const leftButtons = () => <></>;
+  const bottomTabs = () => (
+    <Box
+      sx={{
+        width: "30rem",
+        bgcolor: "#B0CDFF",
+        position: "absolute",
+        bottom: 0,
+        borderRadius: 1,
+      }}
+    >
+      <Tabs
+        value={value}
+        onChange={handleTabChange}
+        centered
+        sx={{
+          ".css-1wf8b0h-MuiTabs-flexContainer": {
+            justifyContent: "space-around",
+          },
+        }}
+      >
+        <Tab label="Exterior" />
+        <Tab label="Interior" />
+        <Tab label="Gallery" />
+        <Tab label="Walk Around" />
+      </Tabs>
+    </Box>
+  );
+
+  const leftButtons = () => (
+    <>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "4rem",
+          left: "2rem",
+        }}
+      >
+        <IconLabelButton icon={<InfoIcon />} title="info" />
+      </Box>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "2rem",
+        }}
+      >
+        <IconButton sx={{ color: "white" }}>
+          <MaximizeIcon fontSize="large" />
+        </IconButton>
+      </Box>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "55%",
+          left: "2rem",
+        }}
+      >
+        <IconButton>
+          <MinimizeIcon fontSize="large" />
+        </IconButton>
+      </Box>
+    </>
+  );
 
   const rightButtons = () => (
     <>
@@ -119,6 +186,7 @@ const CarButtons = () => {
     <>
       {leftButtons()}
       {rightButtons()}
+      {bottomTabs()}
     </>
   );
 };

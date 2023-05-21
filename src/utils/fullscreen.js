@@ -12,10 +12,10 @@ export function enterFullScreen(element) {
 
 export function exitFullscreen() {
   if (document?.exitFullscreen) {
-    document.exitFullscreen();
+    document?.exitFullscreen();
   } else if (document?.mozCancelFullScreen) {
-    document.mozCancelFullScreen();
+    document?.mozCancelFullScreen();
   } else if (document?.webkitExitFullscreen) {
-    document.webkitExitFullscreen();
+    document?.webkitExitFullscreen();
   }
 }
