@@ -3,5 +3,8 @@ module.exports = {
   //   loader: "akamai",
   //   path: "",
   // },
+  images: {
+    domains: ["fastly-production.24c.in"],
+  },
   reactStrictMode: true,
 };
