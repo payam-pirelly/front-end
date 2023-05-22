@@ -6,8 +6,6 @@ import ShowWindowDimensions from "src/utils/resize";
 import Image from "next/image";
 import { Box, Tooltip, IconButton } from "@mui/material";
 import { toggledCarIndex } from "src/redux/car-slice";
-import EffectIcon from "src/components/effect-icon";
-import MaximizeIcon from "src/components/icon/maximize-icon";
 import HotspotPointerIcon from "src/components/icon/hotspot-pointer-icon";
 
 const Car360Viewer = () => {

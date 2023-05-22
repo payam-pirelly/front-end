@@ -4,25 +4,17 @@ import ImageListItem from "@mui/material/ImageListItem";
 import { useDispatch, useSelector } from "react-redux";
 import { toggledCarIndex } from "src/redux/car-slice";
 import { useRef } from "react";
-import { useEffect } from "react";
-import ShowWindowDimensions from "src/utils/resize";
+
+const imagePath = "https://fastly-production.24c.in/webin/360/output_1.jpeg";
 
 export default function ShowCars() {
   const cars = useSelector((state) => state.car?.car);
   const dispatch = useDispatch();
   const ref = useRef(null);
 
-  const { width } = ShowWindowDimensions();
-
   const handleOnClick = (data) => {
     dispatch(toggledCarIndex(data));
   };
-
-  useEffect(() => {
-    const clientWidth = ref?.current?.clientWidth;
-
-    console.log(clientWidth);
-  }, [width]);
 
   return (
     <ImageList
@@ -48,7 +40,7 @@ export default function ShowCars() {
         >
           <img
             onClick={() => handleOnClick(item)}
-            src={`/images/${item}.jpg`}
+            src={imagePath}
             style={{
               borderRadius: 10,
               cursor: "pointer",

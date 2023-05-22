@@ -1,4 +1,3 @@
-
 import React from "react";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import ShowWindowDimensions from "src/utils/resize";
 import { toggledCarIndex } from "src/redux/car-slice";
+const imagePath = "https://fastly-production.24c.in/webin/360/output_1.jpeg";
 
 const CarItem = () => {
   //Selector
@@ -35,7 +35,7 @@ const CarItem = () => {
       <Image
         alt="image"
         priority
-        src={`/images/${carIndex}.jpg`}
+        src={imagePath}
         style={{
           objectFit: "contain",
           height: "auto",

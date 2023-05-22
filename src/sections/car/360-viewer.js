@@ -1,8 +1,39 @@
 // extended by react-360-view
 import { Button } from "@mui/material";
 import React, { Component } from "react";
+import { styled } from "@mui/material/styles";
 
 import Hammer from "react-hammerjs";
+
+const Canvas = styled("canvas")(({ theme }) => ({
+  width: "100%",
+  height: "100%",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center",
+  backgroundSize: "contain",
+  position: "relative",
+}));
+
+const Shadow = styled("div")(({ theme }) => ({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  boxShadow: "rgb(34, 34, 34) 0px 0px 100px inset",
+}));
+
+const V360 = styled("div")(({ theme }) => ({
+  backgroundColor: "#FFF",
+  width: "100%",
+  height: "100%",
+  overflow: "hidden",
+  left: 0,
+  transition: "width 0.3s ease",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+}));
 
 class React360Viewer extends Component {
   constructor() {
@@ -675,7 +706,7 @@ class React360Viewer extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <div
           className="v360-viewer-container"
           ref={(inputEl) => {
@@ -703,15 +734,14 @@ class React360Viewer extends Component {
               },
             }}
           >
-            <div className="v360-viewport-container v360-viewport">
-              <canvas
-                className="v360-image-container"
+            <V360 className="v360-viewport-container">
+              <Canvas
                 ref={(inputEl) => {
                   this.imageContainerRef = inputEl;
                 }}
-              ></canvas>
-              {this.props.boxShadow ? <div className="v360-product-box-shadow"></div> : ""}
-            </div>
+              ></Canvas>
+              {this.props.boxShadow ? <Shadow /> : ""}
+            </V360>
           </Hammer>
 
           <abbr title="Fullscreen Toggle">
@@ -753,7 +783,7 @@ class React360Viewer extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

@@ -10,6 +10,7 @@ import { enterFullScreen } from "src/utils/fullscreen";
 import Car360Viewer from "src/sections/car/car-360-viewer";
 import Main from "./main";
 import CarOut from "./car-out";
+import Panorama from "./panorama";
 
 export default function Container() {
   const { carStatus } = useSelector((state) => state.car);

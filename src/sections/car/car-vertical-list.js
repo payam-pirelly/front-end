@@ -2,6 +2,8 @@ import { ImageList, ImageListItem } from "@mui/material";
 import { Box } from "@mui/system";
 import * as React from "react";
 
+const imagePath = "https://fastly-production.24c.in/webin/360/output_1.jpeg";
+
 export default function CarVerticalList() {
   const items = [1, 2, 3, 4];
 
@@ -10,8 +12,8 @@ export default function CarVerticalList() {
       {items.map((item) => (
         <ImageListItem key={item} sx={{ display: "block" }}>
           <img
-            src={`images/${item}.jpg`}
-            srcSet={`images/${item}.jpg`}
+            src={imagePath}
+            srcSet={imagePath}
             alt={item}
             loading="lazy"
             style={{ borderRadius: 10 }}

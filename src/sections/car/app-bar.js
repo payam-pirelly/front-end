@@ -1,10 +1,8 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { toggledCarStatus } from "src/redux/car-slice";
-import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch } from "react-redux";
 import { FormControlLabel, Switch } from "@mui/material";
 import { exitFullscreen } from "src/utils/fullscreen";

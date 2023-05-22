@@ -7,6 +7,9 @@ import ShowWindowDimensions from "src/utils/resize";
 import Image from "next/image";
 import CarVerticalList from "./car-vertical-list";
 import { toggledCarStatus } from "src/redux/car-slice";
+import DraggableDialog from "src/components/dialog/draggable-dialog";
+
+const imagePath = "https://fastly-production.24c.in/webin/360/output_1.jpeg";
 
 export default function Main({ onClick }) {
   const { height, width } = ShowWindowDimensions();
@@ -52,7 +55,7 @@ export default function Main({ onClick }) {
                   <Image
                     alt="image"
                     priority
-                    src="/images/1.jpg"
+                    src={imagePath}
                     style={{
                       objectFit: "contain",
                       width: "100%",
@@ -71,6 +74,7 @@ export default function Main({ onClick }) {
                 </Box>
                 <CardContent sx={{ padding: 0 }}>
                   <CarVerticalList />
+                  <DraggableDialog />
                 </CardContent>
               </Card>
             </Grid>
