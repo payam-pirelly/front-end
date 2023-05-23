@@ -5,7 +5,7 @@ function Pannellum() {
   return (
     <ReactPannellum
       id="pannellum"
-      showControls={false}
+      showControls={true}
       sceneId="circle"
       imageSource="/images/panorama.jpg"
       config={{
