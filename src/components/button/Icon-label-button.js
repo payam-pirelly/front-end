@@ -5,6 +5,8 @@ export default function IconLabelButton({ icon, title }) {
   return (
     <Button startIcon={icon} sx={{ color: "#0085FF" }}>
       {title}
+
     </Button>
   );
 }
+
