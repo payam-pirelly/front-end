@@ -1,9 +1,14 @@
 // extended by react-360-view
-import { Button } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import React, { Component } from "react";
 import { styled } from "@mui/material/styles";
+import Mouse from "../../utils/base64";
 
 import Hammer from "react-hammerjs";
+
+import MaximizeIcon from "src/components/icon/maximize-icon";
+import MinimizeIcon from "src/components/icon/minimize-icon";
+import ShowWindowDimensions from "src/utils/resize";
 
 const Canvas = styled("canvas")(({ theme }) => ({
   width: "100%",
@@ -58,6 +63,9 @@ class React360Viewer extends Component {
     this.speedFactor = 13;
     this.activeImage = 1;
     this.stopAtEdges = false;
+    this.currentScale = 1;
+    this.x = 0;
+    this.y = 0;
 
     this.state = {
       lastX: 0,
@@ -89,6 +97,8 @@ class React360Viewer extends Component {
       loopTimeoutId: 0,
       playing: false,
       imagesLoaded: false,
+      x: 0,
+      y: 0,
     };
 
     //this.currentLeftPosition = this.currentLeftPosition.bind(this)
@@ -102,6 +112,11 @@ class React360Viewer extends Component {
     this.viewPortElementRef =
       this.viewerContainerRef.getElementsByClassName("v360-viewport-container")[0];
     this.fetchData();
+    document.body.style.cursor = `url('data:image/svg+xml;base64,${Mouse.pointImage64}'),auto`;
+  }
+
+  componentWillUnmount() {
+    document.body.style.cursor = "default";
   }
 
   fetchData() {
@@ -493,61 +508,64 @@ class React360Viewer extends Component {
   };
 
   zoomIn = (evt) => {
-    return;
     this.setState({
       lastX: this.centerX,
       lastY: this.centerY,
     });
     //this.lastY = this.centerY
-    this.zoom(2);
+    this.zoom(1);
   };
+
   zoomOut = (evt) => {
-    return;
     this.setState({
       lastX: this.centerX,
       lastY: this.centerY,
     });
-    this.zoom(-2);
+    this.zoom(-1);
   };
 
-  zoom(clicks) {
-    return;
-    //console.log(this.lastX + ' - ' + this.lastY)
-    let factor = Math.pow(1.01, clicks);
-    //console.log(factor)
-    if (factor > 1) {
-      this.currentScale += factor;
-    } else {
-      if (this.currentScale - factor > 1) this.currentScale -= factor;
-      else this.currentScale = 1;
-    }
-
-    if (this.currentScale > 1) {
-      let pt = this.ctx.transformedPoint(this.state.lastX, this.state.lastY);
-      this.ctx.translate(pt.x, pt.y);
-
-      //console.log(this.currentScale)
-      this.ctx.scale(factor, factor);
-      this.ctx.translate(-pt.x, -pt.y);
-      this.redraw();
-    }
+  zoom(zoom) {
+    this.setState({ currentScale: (this.currentScale += zoom) });
+    // //console.log(this.lastX + ' - ' + this.lastY)
+    // // let factor = Math.pow(1.01, clicks);
+    // let factor = Math.pow(1.1, clicks);
+    // //console.log(factor)
+    // if (factor > 1) {
+    //   this.currentScale += factor;
+    //   console.log("1", factor);
+    //   console.log("1", this.currentScale);
+    // } else {
+    //   console.log("2");
+    //   if (this.currentScale - factor > 1) this.currentScale -= factor;
+    //   else {
+    //     console.log("2");
+    //     this.currentScale = 1;
+    //   }
+    // }
+    // if (this.currentScale > 1) {
+    //   console.log("2");
+    //   let pt = this.ctx.transformedPoint(this.state.lastX, this.state.lastY);
+    //   this.ctx.translate(pt.x, pt.y);
+    //   //console.log(this.currentScale)
+    //   this.ctx.scale(factor, factor);
+    //   this.ctx.translate(-pt.x, -pt.y);
+    //   this.redraw();
+    // }
   }
 
   disableZoomin() {
-    return;
-    document.addEventListener("gesturestart", function (e) {
-      e.preventDefault();
-      document.body.style.zoom = 0.99;
-    });
-    document.addEventListener("gesturechange", function (e) {
-      e.preventDefault();
-      document.body.style.zoom = 0.99;
-    });
-
-    document.addEventListener("gestureend", function (e) {
-      e.preventDefault();
-      document.body.style.zoom = 1;
-    });
+    // document.addEventListener("gesturestart", function (e) {
+    //   e.preventDefault();
+    //   document.body.style.zoom = 0.99;
+    // });
+    // document.addEventListener("gesturechange", function (e) {
+    //   e.preventDefault();
+    //   document.body.style.zoom = 0.99;
+    // });
+    // document.addEventListener("gestureend", function (e) {
+    //   e.preventDefault();
+    //   document.body.style.zoom = 1;
+    // });
   }
 
   onMove(pageX) {
@@ -581,19 +599,35 @@ class React360Viewer extends Component {
   startMoving = (evt) => {
     this.movement = true;
     this.movementStart = evt.pageX;
-    this.viewPortElementRef.style.cursor = "grabbing";
+    // this.viewPortElementRef.style.cursor = "grabbing";
+    document.body.style.cursor = `url('data:image/svg+xml;base64,${Mouse.dragImage64}'),auto`;
   };
 
   doMoving = (evt) => {
+    if (this.currentScale > 1) return;
     if (this.movement) {
       this.onMove(evt.clientX);
+    }
+  };
+
+  handleDragging = (evt) => {
+    console.log(evt);
+    if (this.currentScale > 1 && this.movement) {
+      const { clientX, clientY } = evt;
+      // console.log(movementX, movementY);
+      // this.setState({ x: clientX, y: clientY });
+      // if (this.currentScale > 1) return;
+      // if (this.movement) {
+      //   this.onMove(evt.clientX);
+      // }
     }
   };
 
   stopMoving = (evt) => {
     this.movement = false;
     this.movementStart = 0;
-    this.viewPortElementRef.style.cursor = "grab";
+    // this.viewPortElementRef.style.cursor = "grab";
+    document.body.style.cursor = `url('data:image/svg+xml;base64,${Mouse.pointImage64}'),auto`;
   };
 
   touchStart = (evt) => {
@@ -648,14 +682,6 @@ class React360Viewer extends Component {
     this.setState({ playing: !this.state.playing });
   };
 
-  togglePanMode = (e) => {
-    this.setState({ panmode: !this.state.panmode });
-  };
-
-  toggleFullScreen = (e) => {
-    this.setState({ isFullScreen: !this.state.isFullScreen });
-  };
-
   componentDidUpdate(prevProps, prevState) {
     if (this.state.currentLeftPosition !== prevState.currentLeftPosition) {
       console.log("Left Position Changed");
@@ -672,23 +698,9 @@ class React360Viewer extends Component {
         this.play();
       }
     }
-
-    if (this.state.isFullScreen !== prevState.isFullScreen) {
-      if (!this.state.isFullScreen) {
-        //exit full screen
-        this.viewerContainerRef.classList.remove("v360-main");
-        this.viewerContainerRef.classList.remove("v360-fullscreen");
-      } else {
-        //enter full screen
-        this.viewerContainerRef.classList.add("v360-main");
-        this.viewerContainerRef.classList.add("v360-fullscreen");
-      }
-      this.setImage();
-    }
   }
 
   handlePinch = (e) => {
-    return;
     if (e.scale < this.currentScale) {
       // zoom in
       this.zoomIn();
@@ -696,8 +708,6 @@ class React360Viewer extends Component {
       // zoom out
       this.zoomOut();
     }
-
-    //lastScale = e.scale;
   };
 
   pinchOut = () => {
@@ -706,84 +716,80 @@ class React360Viewer extends Component {
 
   render() {
     return (
-      <>
-        <div
-          className="v360-viewer-container"
-          ref={(inputEl) => {
-            this.viewerContainerRef = inputEl;
-          }}
-          id="identifier"
-          onWheel={(e) => this.zoomImage(e)}
-        >
-          {!this.state.imagesLoaded ? (
-            <div className="v360-viewport">
-              <div className="v360-spinner-grow"></div>
-              <p ref={this.viewPercentageRef} className="v360-percentage-text"></p>
-            </div>
-          ) : (
-            ""
-          )}
+      <div
+        style={{
+          width: this.props?.width,
+        }}
+        ref={(inputEl) => {
+          this.viewerContainerRef = inputEl;
+        }}
+        // onWheel={(e) => this.zoomImage(e)}
+      >
+        {!this.state.imagesLoaded ? (
+          <div className="v360-viewport">
+            <div className="v360-spinner-grow"></div>
+            <p ref={this.viewPercentageRef} className="v360-percentage-text">
+              loading...
+            </p>
+          </div>
+        ) : (
+          ""
+        )}
 
-          <Hammer
-            onPinchIn={this.handlePinch}
-            onPinchOut={this.handlePinch}
-            onPinchEnd={this.pinchOut}
-            options={{
-              recognizers: {
-                pinch: { enable: true },
-              },
+        <Hammer
+          onPinchIn={this.handlePinch}
+          onPinchOut={this.handlePinch}
+          onPinchEnd={this.pinchOut}
+          options={{
+            recognizers: {
+              pinch: { enable: true },
+            },
+          }}
+        >
+          <V360
+            // onMouseMove={this.handleDragging}
+            className="v360-viewport-container"
+            sx={{
+              transform: `translate3d(${this.state.x}px, ${this.state.y}px, ${0}px) scale(${
+                this.state.currentScale
+              })`,
             }}
           >
-            <V360 className="v360-viewport-container">
-              <Canvas
-                ref={(inputEl) => {
-                  this.imageContainerRef = inputEl;
-                }}
-              ></Canvas>
-              {this.props.boxShadow ? <Shadow /> : ""}
-            </V360>
-          </Hammer>
-
-          <abbr title="Fullscreen Toggle">
-            <div className="v360-fullscreen-toggle text-center" onClick={this.toggleFullScreen}>
-              <div
-                className={
-                  this.props.buttonClass === "dark"
-                    ? "v360-fullscreen-toggle-btn text-light"
-                    : "v360-fullscreen-toggle-btn text-dark"
-                }
-              >
-                <i
-                  className={
-                    !this.state.isFullScreen ? "fas fa-expand text-lg" : "fas fa-compress text-lg"
-                  }
-                ></i>
-              </div>
-            </div>
-          </abbr>
-
-          <div id="v360-menu-btns" className={this.props.buttonClass}>
-            <div className="v360-navigate-btns">
-              <Button
-                onClick={this.togglePlay}
-                icon={this.state.playing ? "fa fa-pause" : "fa fa-play"}
-              />
-              <Button onClick={this.zoomIn} icon="fa fa-search-plus" />
-              <Button onClick={this.zoomOut} icon="fa fa-search-minus" />
-
-              {this.state.panmode ? (
-                <Button onClick={this.togglePanMode} text="360&deg;" />
-              ) : (
-                <Button onClick={this.togglePanMode} icon="fa fa-hand-paper" />
-              )}
-
-              <Button onClick={this.prev} icon="fa fa-chevron-left" />
-              <Button onClick={this.next} icon="fa fa-chevron-right" />
-              <Button onClick={this.resetPosition} icon="fa fa-sync" />
-            </div>
-          </div>
-        </div>
-      </>
+            <Canvas
+              ref={(inputEl) => {
+                this.imageContainerRef = inputEl;
+              }}
+            />
+            {this.props.boxShadow ? <Shadow /> : ""}
+          </V360>
+        </Hammer>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "2.5rem",
+          }}
+        >
+          <IconButton
+            onClick={this.zoomIn}
+            sx={{ color: "white" }}
+            disabled={this.currentScale > 3 ? true : false}
+          >
+            <MaximizeIcon fontSize="large" />
+          </IconButton>
+        </Box>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "55%",
+            left: "2.5rem",
+          }}
+        >
+          <IconButton onClick={this.zoomOut} disabled={this.currentScale === 1 ? true : false}>
+            <MinimizeIcon fontSize="large" />
+          </IconButton>
+        </Box>
+      </div>
     );
   }
 }

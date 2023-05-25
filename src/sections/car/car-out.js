@@ -1,13 +1,9 @@
 import React from "react";
-import Car360Viewer from "./car-360-viewer";
-import ResponsiveAppBar from "./app-bar";
 import { useMemo } from "react";
-import Panorama from "./panorama";
 import ShowCars from "./show-cars";
 import CarButtons from "./car-buttons";
-import ThreeSixtyView from "./ThreeSixty";
-import DraggableDialog from "src/components/dialog/draggable-dialog";
 import Pannellum from "./pannellum";
+import ThreeSixtyView from "./three-sixty";
 
 export default function CarOut() {
   const [value, setValue] = React.useState(0);
@@ -33,7 +29,6 @@ export default function CarOut() {
 
   return (
     <>
-      <ResponsiveAppBar />
       {renderContent}
       <CarButtons value={value} handleTabChange={handleChange} />
     </>
