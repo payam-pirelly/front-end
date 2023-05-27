@@ -24,11 +24,20 @@ export const neutral = {
   900: "#111927",
 };
 
-export const indigo = withAlphas({
+export const primary = withAlphas({
   lightest: "#F5F7FF",
   light: "#EBEEFE",
-  main: "#6366F1",
-  dark: "#4338CA",
+  main: "#07A4FC",
+  dark: "#07A4FC", //hover
+  darkest: "#312E81",
+  contrastText: "#FFFFFF",
+});
+
+export const secondary = withAlphas({
+  lightest: "#F5F7FF",
+  light: "#EBEEFE",
+  main: "#1862E3",
+  dark: "#1862E3", //hover
   darkest: "#312E81",
   contrastText: "#FFFFFF",
 });

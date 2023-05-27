@@ -1,42 +1,82 @@
-import {
-  IconButton,
-  Tooltip,
-  Typography,
-  Box,
-  Fade,
-  Tabs,
-  Tab,
-  FormControlLabel,
-  Switch,
-} from "@mui/material";
+import { IconButton, Typography, Box, Fade, Tabs, Tab, Switch, useTheme } from "@mui/material";
 import React from "react";
 import { styled } from "@mui/material/styles";
 import OverviewIcon from "src/components/icon/overview-icon";
 import WarrantyIcon from "src/components/icon/warranty-icon";
-import { toggledCarStatus, toggledIsHotspot } from "src/redux/car-slice";
+import { toggledCarStatus, toggledCarTabIndex, toggledIsHotspot } from "src/redux/car-slice";
 import { exitFullscreen } from "src/utils/fullscreen";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CancelIcon from "src/components/icon/cancel-icon";
 import { useState } from "react";
-import ArrowDownIcon from "src/components/icon/arrow-down-icon";
-import ArrowUpIcon from "src/components/icon/arrow-up-icon";
 import IconLabelButton from "src/components/button/Icon-label-button";
-import InfoIcon from "src/components/icon/info-Icon";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import HotspotIcon from "src/components/icon/hotspot-icon";
+import Fab from "src/components/button/fab";
+import ExpandLessRoundedIcon from "@mui/icons-material/ExpandLessRounded";
+import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 
 const RightRoot = styled("div")(({}) => ({
-  top: "10rem",
+  top: "8rem",
   display: "flex",
   flexDirection: "column",
   position: "absolute",
-  right: "1.5rem",
+  right: "2rem",
   height: "20%",
   justifyContent: "space-around",
 }));
 
+const topStyle = {
+  width: "30rem",
+  opacity: 0.9,
+  bgcolor: "#1E1E1E",
+  position: "fixed",
+  top: 10,
+  borderRadius: 1,
+  ".css-2he6n-MuiButtonBase-root-MuiTab-root.Mui-selected": {
+    color: "white !important",
+  },
+  ".css-1wf8b0h-MuiTabs-flexContainer": {
+    justifyContent: "space-around",
+  },
+};
+
+const bottomStyle = {
+  width: "30rem",
+  opacity: 0.9,
+  bgcolor: "#B0CDFF",
+  position: "fixed",
+  bottom: 10,
+  borderRadius: 1,
+  ".css-2he6n-MuiButtonBase-root-MuiTab-root.Mui-selected": {
+    color: "#1862E3",
+  },
+  ".css-1wf8b0h-MuiTabs-flexContainer": {
+    justifyContent: "space-around",
+  },
+  ".css-2he6n-MuiButtonBase-root-MuiTab-root+.css-2he6n-MuiButtonBase-root-MuiTab-root": {
+    color: "#5794FF",
+  },
+};
+
+const interior = {
+  bottom: "2rem",
+  position: "absolute",
+  left: "2rem",
+};
+
+const exterior = {
+  top: "2rem",
+  position: "absolute",
+  left: "2rem",
+};
+
 const CarButtons = ({ value, handleTabChange }) => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
+  const { carTabIndex } = useSelector((state) => state.car);
+  const theme = useTheme();
+  const [open, setOpen] = useState(false);
 
   const handleChange = () => {
     setChecked((prev) => !prev);
@@ -46,59 +86,70 @@ const CarButtons = ({ value, handleTabChange }) => {
     exitFullscreen();
   };
 
-  const leftButtons = () => (
+  const leftButtons = (
     <>
-      <Box
-        sx={{
-          position: "absolute",
-          top: "3rem",
-          left: "2rem",
-        }}
-      >
-        <FormControlLabel
-          sx={{
-            color: "blue",
-            background: "#B0CDFF",
-            borderRadius: 1,
-            padding: 1,
-          }}
-          value="start"
-          control={
-            <Switch size="small" color="primary" onChange={() => dispatch(toggledIsHotspot())} />
-          }
-          label={
+      <Box sx={carTabIndex === 1 ? interior : exterior}>
+        {carTabIndex === 2 ? (
+          <IconButton onClick={() => dispatch(toggledCarTabIndex(0))}>
+            <ArrowBackRoundedIcon fontSize="large" />
+          </IconButton>
+        ) : (
+          <>
             <Box
               sx={{
                 display: "flex",
+                borderRadius: 10,
+                height: "2rem",
                 alignItems: "center",
+                background: "gray",
+                opacity: 0.9,
               }}
             >
               <HotspotIcon
                 style={{
-                  marginRight: 3,
+                  margin: "0 6px",
                   fontSize: "small",
-                  color: "#0085FF",
+                  fill: "red",
                 }}
               />
-              <Typography color={"#0085FF"}>Hotspot</Typography>
+              <Typography color={theme.palette.secondary.main}>Hotspot</Typography>
+              <Switch
+                size="small"
+                color="secondary"
+                onChange={() => dispatch(toggledIsHotspot())}
+              />
             </Box>
-          }
-          labelPlacement="start"
-        />
-      </Box>
-      <Box
-        sx={{
-          position: "absolute",
-          top: "6rem",
-          left: "2.5rem",
-        }}
-      >
-        <IconLabelButton icon={<InfoIcon />} title="info" />
+            {carTabIndex !== 1 && (
+              <Box
+                onMouseEnter={() => setOpen(true)}
+                onMouseLeave={() => setOpen(false)}
+                component={"div"}
+                sx={{
+                  opacity: 0.9,
+                  display: "flex",
+                  alignItems: "center",
+                  background: open ? "#0085FF" : "",
+                  borderRadius: 10,
+                  height: "2rem",
+                  marginTop: 1,
+                }}
+                onMouseOut={() => setOpen(false)}
+              >
+                <IconLabelButton icon={<InfoOutlinedIcon />} title="info" />
+                {open && (
+                  <Typography color={theme.palette.secondary.main} mr={1}>
+                    2018 ford
+                  </Typography>
+                )}
+              </Box>
+            )}
+          </>
+        )}
       </Box>
     </>
   );
 
-  const rightButtons = () => (
+  const rightButtons = (
     <>
       <Box
         sx={{
@@ -111,22 +162,32 @@ const CarButtons = ({ value, handleTabChange }) => {
           <CancelIcon fontSize="large" />
         </IconButton>
       </Box>
-      <Box
-        sx={{
-          position: "absolute",
-          top: "6rem",
-          right: "2rem",
-        }}
-      >
-        <IconButton onClick={handleChange}>
-          {checked ? <ArrowDownIcon fontSize="large" /> : <ArrowUpIcon fontSize="large" />}
-        </IconButton>
-      </Box>
-      <Fade in={checked}>
-        <RightRoot sx={{ background: "#D9D9D9", borderRadius: 1, opacity: 0.9 }}>
-          <Tooltip title={"HISTORY"}>
-            <IconButton sx={{ display: "block" }}>
-              <OverviewIcon />
+      <RightRoot>
+        <Fab
+          icon={
+            checked ? (
+              <ExpandMoreRoundedIcon color="secondary" />
+            ) : (
+              <ExpandLessRoundedIcon color="secondary" />
+            )
+          }
+          onClick={handleChange}
+        />
+        <Fade in={checked}>
+          <Box>
+            <Box display={"block"} mb={1}>
+              <Fab icon={<WarrantyIcon color="secondary" />} onClick={handleChange} />
+              <Typography
+                sx={{ color: "black", fontSize: "xx-small" }}
+                variant="caption"
+                display="block"
+                gutterBottom
+              >
+                warranty
+              </Typography>
+            </Box>
+            <Box display={"block"} mb={1}>
+              <Fab icon={<OverviewIcon color="secondary" />} onClick={handleChange} />
               <Typography
                 sx={{ color: "black", fontSize: "xx-small" }}
                 variant="caption"
@@ -135,46 +196,16 @@ const CarButtons = ({ value, handleTabChange }) => {
               >
                 HISTORY
               </Typography>
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={"WARRANTY"}>
-            <IconButton sx={{ display: "block" }}>
-              <WarrantyIcon />
-              <Typography
-                sx={{ color: "black", fontSize: "xx-small" }}
-                variant="caption"
-                display="block"
-                gutterBottom
-              >
-                WARRANTY
-              </Typography>
-            </IconButton>
-          </Tooltip>
-        </RightRoot>
-      </Fade>
+            </Box>
+          </Box>
+        </Fade>
+      </RightRoot>
     </>
   );
 
-  const bottomTabs = () => (
-    <Box
-      sx={{
-        width: "30rem",
-        bgcolor: "#B0CDFF",
-        position: "absolute",
-        bottom: 0,
-        borderRadius: 1,
-      }}
-    >
-      <Tabs
-        value={value}
-        onChange={handleTabChange}
-        centered
-        sx={{
-          ".css-1wf8b0h-MuiTabs-flexContainer": {
-            justifyContent: "space-around",
-          },
-        }}
-      >
+  const carTab = (
+    <Box sx={carTabIndex === 1 ? topStyle : bottomStyle}>
+      <Tabs value={value} onChange={handleTabChange} centered>
         <Tab label="Exterior" />
         <Tab label="Interior" />
         <Tab label="Gallery" />
@@ -185,9 +216,9 @@ const CarButtons = ({ value, handleTabChange }) => {
 
   return (
     <>
-      {leftButtons()}
-      {rightButtons()}
-      {bottomTabs()}
+      {leftButtons}
+      {carTabIndex !== 2 && rightButtons}
+      {carTab}
     </>
   );
 };

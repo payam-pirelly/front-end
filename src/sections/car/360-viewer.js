@@ -6,17 +6,20 @@ import Mouse from "../../utils/base64";
 
 import Hammer from "react-hammerjs";
 
-import MaximizeIcon from "src/components/icon/maximize-icon";
-import MinimizeIcon from "src/components/icon/minimize-icon";
 import HotspotPointerIcon from "src/components/icon/hotspot-pointer-icon";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
+import MinimizeRoundedIcon from "@mui/icons-material/MinimizeRounded";
+import Fab from "src/components/button/fab";
 
 const LeftButtons = styled("div")(({}) => ({
   top: "50%",
   display: "flex",
   flexDirection: "column",
   position: "absolute",
-  left: "2`rem",
+  left: "2rem",
   justifyContent: "space-around",
+  gap: 20,
 }));
 
 const Canvas = styled("canvas")(({ theme }) => ({
@@ -777,16 +780,16 @@ class React360Viewer extends Component {
           </V360>
         </Hammer>
         <LeftButtons>
-          <IconButton
+          <Fab
+            icon={<AddRoundedIcon color="secondary" />}
             onClick={this.zoomIn}
-            sx={{ color: "white" }}
-            disabled={this.currentScale > 3 ? true : false}
-          >
-            <MaximizeIcon fontSize="large" />
-          </IconButton>
-          <IconButton onClick={this.zoomOut} disabled={this.currentScale === 1 ? true : false}>
-            <MinimizeIcon fontSize="large" />
-          </IconButton>
+            disabled={this.currentScale > 2 ? true : false}
+          />
+          <Fab
+            icon={<RemoveRoundedIcon color="secondary" />}
+            onClick={this.zoomOut}
+            disabled={this.currentScale === 1 ? true : false}
+          />
         </LeftButtons>
       </div>
     );

@@ -134,7 +134,7 @@ export const OverviewTraffic = (props) => {
       </CardContent>
     </Card>
   );
-};
+};PropTypes
 
 OverviewTraffic.propTypes = {
   chartSeries: PropTypes.array.isRequired,

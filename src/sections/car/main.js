@@ -20,6 +20,11 @@ export default function Main({ onClick }) {
     onClick();
   };
 
+  const handleClickCarIn = () => {
+    dispatch(toggledCarStatus("carOut"));
+    onClick();
+  };
+
   return (
     <>
       <Head>
@@ -73,8 +78,8 @@ export default function Main({ onClick }) {
                   </Box>
                 </Box>
                 <CardContent sx={{ padding: 0 }}>
-                  <CarVerticalList />
-                  <DraggableDialog />
+                  <CarVerticalList onClick={onClick} />
+                  {/* <DraggableDialog /> */}
                 </CardContent>
               </Card>
             </Grid>

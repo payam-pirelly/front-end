@@ -1,19 +1,22 @@
 import React from "react";
 import { useMemo } from "react";
-import ShowCars from "./show-cars";
+import ShowCars from "./cars-list";
 import CarButtons from "./car-buttons";
 import Pannellum from "./pannellum";
 import ThreeSixtyView from "./three-sixty";
+import { useDispatch, useSelector } from "react-redux";
+import { toggledCarTabIndex } from "src/redux/car-slice";
 
 export default function CarOut() {
-  const [value, setValue] = React.useState(0);
+  const { carTabIndex } = useSelector((state) => state.car);
+  const dispatch = useDispatch();
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    dispatch(toggledCarTabIndex(newValue));
   };
 
   const renderContent = useMemo(() => {
-    switch (value) {
+    switch (carTabIndex) {
       case 0:
         return <ThreeSixtyView />;
       case 1:
@@ -25,12 +28,12 @@ export default function CarOut() {
       default:
         break;
     }
-  }, [value]);
+  }, [carTabIndex]);
 
   return (
     <>
       {renderContent}
-      <CarButtons value={value} handleTabChange={handleChange} />
+      <CarButtons value={carTabIndex} handleTabChange={handleChange} />
     </>
   );
 }
