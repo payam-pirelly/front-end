@@ -12,8 +12,8 @@ export default function MinimizeIcon({ ...props }) {
       {...props}
     >
       <g filter="url(#filter0_b_296_919)">
-        <circle cx="24" cy="24" r="24" fill="#1862E3" fill-opacity="0.15" />
-        <path d="M27.952 23.16V25.464H18.088V23.16H27.952Z" fill="#1862E3" fill-opacity="0.5" />
+        <circle cx="24" cy="24" r="24" fill="#1862E3" fillOpacity="0.15" />
+        <path d="M27.952 23.16V25.464H18.088V23.16H27.952Z" fill="#1862E3" fillOpacity="0.5" />
       </g>
       <defs>
         <filter
@@ -23,9 +23,9 @@ export default function MinimizeIcon({ ...props }) {
           width="58"
           height="58"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feGaussianBlur in="BackgroundImageFix" stdDeviation="2.5" />
           <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_296_919" />
           <feBlend

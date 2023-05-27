@@ -13,7 +13,7 @@ import React from "react";
 import { styled } from "@mui/material/styles";
 import OverviewIcon from "src/components/icon/overview-icon";
 import WarrantyIcon from "src/components/icon/warranty-icon";
-import { toggledCarStatus } from "src/redux/car-slice";
+import { toggledCarStatus, toggledIsHotspot } from "src/redux/car-slice";
 import { exitFullscreen } from "src/utils/fullscreen";
 import { useDispatch } from "react-redux";
 import CancelIcon from "src/components/icon/cancel-icon";
@@ -31,7 +31,6 @@ const RightRoot = styled("div")(({}) => ({
   position: "absolute",
   right: "1.5rem",
   height: "20%",
-  display: "flex",
   justifyContent: "space-around",
 }));
 
@@ -64,7 +63,9 @@ const CarButtons = ({ value, handleTabChange }) => {
             padding: 1,
           }}
           value="start"
-          control={<Switch size="small" color="primary" />}
+          control={
+            <Switch size="small" color="primary" onChange={() => dispatch(toggledIsHotspot())} />
+          }
           label={
             <Box
               sx={{

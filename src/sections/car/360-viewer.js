@@ -1,5 +1,5 @@
 // extended by react-360-view
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import React, { Component } from "react";
 import { styled } from "@mui/material/styles";
 import Mouse from "../../utils/base64";
@@ -8,7 +8,16 @@ import Hammer from "react-hammerjs";
 
 import MaximizeIcon from "src/components/icon/maximize-icon";
 import MinimizeIcon from "src/components/icon/minimize-icon";
-import ShowWindowDimensions from "src/utils/resize";
+import HotspotPointerIcon from "src/components/icon/hotspot-pointer-icon";
+
+const LeftButtons = styled("div")(({}) => ({
+  top: "50%",
+  display: "flex",
+  flexDirection: "column",
+  position: "absolute",
+  left: "2`rem",
+  justifyContent: "space-around",
+}));
 
 const Canvas = styled("canvas")(({ theme }) => ({
   width: "100%",
@@ -43,7 +52,7 @@ const V360 = styled("div")(({ theme }) => ({
 class React360Viewer extends Component {
   constructor() {
     super();
-    //this.imageContainerRef = React.createRef();
+    // this.imageContainerRef = React.createRef();
     this.viewPercentageRef = React.createRef();
     this.viewPortElementRef = React.createRef();
     this.canvas = null;
@@ -490,6 +499,7 @@ class React360Viewer extends Component {
   }
 
   update() {
+    this.setState({ activeImage: this.activeImage });
     const image = this.images[this.activeImage - 1];
     this.currentCanvasImage = image;
     this.redraw();
@@ -594,6 +604,7 @@ class React360Viewer extends Component {
       }
       this.redraw();
     }
+    console.log(this.activeImage);
   }
 
   startMoving = (evt) => {
@@ -715,27 +726,16 @@ class React360Viewer extends Component {
   };
 
   render() {
+    console.log(this.activeImage);
     return (
       <div
         style={{
           width: this.props?.width,
         }}
-        ref={(inputEl) => {
-          this.viewerContainerRef = inputEl;
-        }}
+        ref={(inputEl) => (this.viewerContainerRef = inputEl)}
         // onWheel={(e) => this.zoomImage(e)}
       >
-        {!this.state.imagesLoaded ? (
-          <div className="v360-viewport">
-            <div className="v360-spinner-grow"></div>
-            <p ref={this.viewPercentageRef} className="v360-percentage-text">
-              loading...
-            </p>
-          </div>
-        ) : (
-          ""
-        )}
-
+        {!this.state.imagesLoaded ? <p ref={this.viewPercentageRef}>loading...</p> : ""}
         <Hammer
           onPinchIn={this.handlePinch}
           onPinchOut={this.handlePinch}
@@ -755,21 +755,28 @@ class React360Viewer extends Component {
               })`,
             }}
           >
-            <Canvas
-              ref={(inputEl) => {
-                this.imageContainerRef = inputEl;
-              }}
-            />
+            <Canvas ref={(inputEl) => (this.imageContainerRef = inputEl)} />
+            {this.activeImage === 1 && this.props.isHotspot && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  zIndex: 1,
+                  top: (this.imageContainerRef?.getBoundingClientRect()?.height / 100) * 52,
+                  left: (this.imageContainerRef?.getBoundingClientRect()?.width / 100) * 50,
+                  display: "flex",
+                }}
+              >
+                <Tooltip title={"Hood"}>
+                  <IconButton>
+                    <HotspotPointerIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            )}
             {this.props.boxShadow ? <Shadow /> : ""}
           </V360>
         </Hammer>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "2.5rem",
-          }}
-        >
+        <LeftButtons>
           <IconButton
             onClick={this.zoomIn}
             sx={{ color: "white" }}
@@ -777,18 +784,10 @@ class React360Viewer extends Component {
           >
             <MaximizeIcon fontSize="large" />
           </IconButton>
-        </Box>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "55%",
-            left: "2.5rem",
-          }}
-        >
           <IconButton onClick={this.zoomOut} disabled={this.currentScale === 1 ? true : false}>
             <MinimizeIcon fontSize="large" />
           </IconButton>
-        </Box>
+        </LeftButtons>
       </div>
     );
   }
