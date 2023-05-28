@@ -1,9 +1,25 @@
-import { IconButton, Typography, Box, Fade, Tabs, Tab, Switch, useTheme } from "@mui/material";
+import {
+  IconButton,
+  Typography,
+  Box,
+  Fade,
+  Tabs,
+  Tab,
+  Switch,
+  useTheme,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import React from "react";
 import { styled } from "@mui/material/styles";
 import OverviewIcon from "src/components/icon/overview-icon";
 import WarrantyIcon from "src/components/icon/warranty-icon";
-import { toggledCarStatus, toggledCarTabIndex, toggledIsHotspot } from "src/redux/car-slice";
+import {
+  toggledCarStatus,
+  toggledCarTabIndex,
+  toggledEnteriorCarStatus,
+  toggledIsHotspot,
+} from "src/redux/car-slice";
 import { exitFullscreen } from "src/utils/fullscreen";
 import { useDispatch, useSelector } from "react-redux";
 import CancelIcon from "src/components/icon/cancel-icon";
@@ -15,6 +31,8 @@ import Fab from "src/components/button/fab";
 import ExpandLessRoundedIcon from "@mui/icons-material/ExpandLessRounded";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
 
 const RightRoot = styled("div")(({}) => ({
   top: "8rem",
@@ -203,22 +221,54 @@ const CarButtons = ({ value, handleTabChange }) => {
     </>
   );
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const show = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
   const carTab = (
     <Box sx={carTabIndex === 1 ? topStyle : bottomStyle}>
       <Tabs value={value} onChange={handleTabChange} centered>
         <Tab label="Exterior" />
-        <Tab label="Interior" />
+        <Tab
+          label="Interior"
+          icon={show ? <KeyboardArrowUpRoundedIcon /> : <KeyboardArrowDownRoundedIcon />}
+          iconPosition="end"
+          onClick={handleClick}
+        />
         <Tab label="Gallery" />
         <Tab label="Walk Around" />
       </Tabs>
     </Box>
   );
 
+  const handleMenu = (data) => {
+    dispatch(toggledEnteriorCarStatus(data));
+    handleCloseMenu();
+  };
+
   return (
     <>
       {leftButtons}
       {carTabIndex !== 2 && rightButtons}
       {carTab}
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={show}
+        onClose={handleCloseMenu}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={() => handleMenu("front")}>Push Start</MenuItem>
+        <MenuItem onClick={() => handleMenu("back")}>See Back Seat</MenuItem>
+        <MenuItem onClick={handleCloseMenu}>See Center Console</MenuItem>
+      </Menu>
     </>
   );
 };
