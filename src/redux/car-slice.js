@@ -9,6 +9,7 @@ const initialState = {
   isHotspot: false,
   leftSideBar: false,
   carTabIndex: 0,
+  interiorCarStatus: "front",
 };
 
 const carSlice = createSlice({
@@ -33,6 +34,9 @@ const carSlice = createSlice({
     toggledCarTabIndex: (state, { payload }) => {
       state.carTabIndex = payload;
     },
+    toggledEnteriorCarStatus: (state, { payload }) => {
+      state.interiorCarStatus = payload;
+    },
   },
 });
 
@@ -44,4 +48,5 @@ export const {
   toggledIsHotspot,
   toggledLeftSideBar,
   toggledCarTabIndex,
+  toggledEnteriorCarStatus,
 } = carSlice.actions;

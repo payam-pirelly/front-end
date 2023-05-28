@@ -9,8 +9,10 @@ import Hammer from "react-hammerjs";
 import HotspotPointerIcon from "src/components/icon/hotspot-pointer-icon";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
-import MinimizeRoundedIcon from "@mui/icons-material/MinimizeRounded";
 import Fab from "src/components/button/fab";
+import LineTo from "react-lineto";
+import HotspotCard from "./hotspot-card";
+import CloseIcon from "src/components/icon/close-icon";
 
 const LeftButtons = styled("div")(({}) => ({
   top: "50%",
@@ -59,6 +61,7 @@ class React360Viewer extends Component {
     this.viewPercentageRef = React.createRef();
     this.viewPortElementRef = React.createRef();
     this.canvas = null;
+    this.showHotSpotCard = false;
     this.ctx = null;
     this.isMobile = false;
     this.imageData = [];
@@ -109,6 +112,7 @@ class React360Viewer extends Component {
       loopTimeoutId: 0,
       playing: false,
       imagesLoaded: false,
+      showHotSpotCard: false,
       x: 0,
       y: 0,
     };
@@ -728,8 +732,13 @@ class React360Viewer extends Component {
     this.currentScale = 1;
   };
 
+  handleClick = (data) => {
+    this.showHotSpotCard = data;
+    this.setState({ showHotSpotCard: data });
+  };
+
   render() {
-    console.log(this.activeImage);
+    console.log(this.showHotSpotCard);
     return (
       <div
         style={{
@@ -770,8 +779,15 @@ class React360Viewer extends Component {
                 }}
               >
                 <Tooltip title={"Hood"}>
-                  <IconButton>
-                    <HotspotPointerIcon />
+                  <IconButton
+                    sx={{ zIndex: (theme) => theme.zIndex.tooltip }}
+                    className="A"
+                    onClick={() => {
+                      if (this.showHotSpotCard) this.handleClick(false);
+                      else this.handleClick(true);
+                    }}
+                  >
+                    {this.showHotSpotCard ? <CloseIcon /> : <HotspotPointerIcon />}
                   </IconButton>
                 </Tooltip>
               </Box>
@@ -791,6 +807,13 @@ class React360Viewer extends Component {
             disabled={this.currentScale === 1 ? true : false}
           />
         </LeftButtons>
+        <LineTo from="A" to="B" borderColor={"#1862E3"} borderStyle={"dashed"} delay="10" />
+        {this.showHotSpotCard && (
+          <HotspotCard
+            onClick={() => this.handleClick(false)}
+            opacity={this.showHotSpotCard ? 1 : 0}
+          />
+        )}
       </div>
     );
   }
