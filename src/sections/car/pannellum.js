@@ -1,25 +1,35 @@
 import React from "react";
 import ReactPannellum from "./react-pannellum";
+import { useSelector } from "react-redux";
 
 function Pannellum() {
+  const { interiorCarStatus } = useSelector((state) => state.car);
+  const src = `/images/${interiorCarStatus}.jpg`;
+
   return (
     <ReactPannellum
       id="pannellum"
-      showControls={true}
+      showControls={false}
+      autoLoad={false}
       sceneId="circle"
-      imageSource="/images/panorama.jpg"
+      imageSource={src}
       config={{
         hotSpots: [
           {
             pitch: -0.9,
-            id: 12,
+            id: 1,
             yaw: 0,
             type: "info",
-            text: "North Charles Street",
+            text: "1",
             clickHandlerFunc: () => alert("click me!"),
-            // createTooltipFunc: () => alert("click me!"),
-            // URL: "https://artbma.org/",
-            //onClick hotspot naviagte to imageSource: "https://pannellum.org/images/bma-0.jpg",
+          },
+          {
+            id: 2,
+            pitch: 10,
+            yaw: 10,
+            type: "info",
+            text: "2",
+            clickHandlerFunc: () => alert("click me!"),
           },
         ],
       }}

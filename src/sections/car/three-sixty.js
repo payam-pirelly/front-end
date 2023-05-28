@@ -11,25 +11,20 @@ export default function ThreeSixtyView() {
   const ref = useRef();
   const cars = useSelector((state) => state.car?.car);
   const { isHotspot } = useSelector((state) => state.car);
-  const offsetParent = ref?.current?.offsetParent;
-  const clientWidth = offsetParent?.clientWidth,
-    clientHeight = offsetParent?.clientHeight;
 
   const { width } = ShowWindowDimensions();
 
   return (
-    <Box ref={ref}>
-      <React360Viewer
-        width={width}
-        amount={75}
-        imagePath={basePath}
-        fileName="output_{index}.jpeg"
-        boxShadow
-        spinReverse
-        // autoplay
-        buttonClass="light"
-        isHotspot={isHotspot}
-      />
-    </Box>
+    <React360Viewer
+      width={width}
+      amount={75}
+      imagePath={basePath}
+      fileName="output_{index}.jpeg"
+      boxShadow
+      spinReverse
+      // autoplay
+      buttonClass="light"
+      isHotspot={isHotspot}
+    />
   );
 }
