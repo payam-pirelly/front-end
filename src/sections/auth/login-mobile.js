@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Button, Stack, TextField, Typography } from "@mui/material";
-import { RecaptchaVerifier, signInWithPhoneNumber, ge } from "firebase/auth";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { firebaseAuth } from "src/firebase/app";
 import { useRouter } from "next/navigation";
 import { useAuth } from "src/hooks/use-auth";

@@ -2018,10 +2018,9 @@ var pannellum = (function (window, document, undefined$1) {
       renderContainer.className = "pnlm-render-container";
       container.appendChild(renderContainer);
       const element = document.getElementsByClassName("pnlm-render-container");
-      const data = element[0]
+      const data = element[0];
       console.log(data);
       // data?.remove();
-
 
       var dragFix = document.createElement("div");
       dragFix.className = "pnlm-dragfix";

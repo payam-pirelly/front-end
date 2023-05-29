@@ -10,7 +10,7 @@ import HotspotPointerIcon from "src/components/icon/hotspot-pointer-icon";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 import Fab from "src/components/button/fab";
-import LineTo from "react-lineto";
+import LineTo from "./lineto";
 import HotspotCard from "./hotspot-card";
 import CloseIcon from "src/components/icon/close-icon";
 
@@ -807,12 +807,26 @@ class React360Viewer extends Component {
             disabled={this.currentScale === 1 ? true : false}
           />
         </LeftButtons>
-        <LineTo from="A" to="B" borderColor={"#1862E3"} borderStyle={"dashed"} delay="10" />
+        <LineTo from="A" to="B" borderColor={"#1862E3"} borderStyle={"dashed"} delay={10} />
         {this.showHotSpotCard && (
-          <HotspotCard
-            onClick={() => this.handleClick(false)}
-            opacity={this.showHotSpotCard ? 1 : 0}
-          />
+          <>
+            {/* <div
+              style={{
+                borderTop: "1px dashed rgb(24, 98, 227)",
+                position: "absolute",
+                top: "519.734px",
+                left: "721.5px",
+                width: "455.779px",
+                zIndex: 1,
+                transform: "rotate(-136.846deg)",
+                transformOrigin: "0px 0px",
+              }}
+            ></div> */}
+            <HotspotCard
+              onClick={() => this.handleClick(false)}
+              opacity={this.showHotSpotCard ? 1 : 0}
+            />
+          </>
         )}
       </div>
     );
