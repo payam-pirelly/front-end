@@ -36,11 +36,12 @@ const App = (props) => {
           {/* <AuthProvider> */}
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <AuthConsumer>
+            <Component {...pageProps} />
+            {/* <AuthConsumer>
               {(auth) =>
                 auth.isLoading ? <SplashScreen /> : getLayout(<Component {...pageProps} />)
               }
-            </AuthConsumer>
+            </AuthConsumer> */}
           </ThemeProvider>
           {/* </AuthProvider> */}
         </Provider>
