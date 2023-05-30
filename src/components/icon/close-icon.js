@@ -30,8 +30,8 @@ export default function CloseIcon() {
           y2="35"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#1862E3" />
-          <stop offset="1" stopColor="#0085FF" />
+          <stop stop-color="#1862E3" />
+          <stop offset="1" stop-color="#0085FF" />
         </linearGradient>
       </defs>
     </SvgIcon>

@@ -232,12 +232,7 @@ const CarButtons = ({ value, handleTabChange }) => {
 
   const carTab = (
     <Box sx={carTabIndex === 1 ? topStyle : bottomStyle}>
-      <Tabs
-        value={value}
-        onChange={handleTabChange}
-        centered
-        sx={{ ".MuiTabs-flexContainer": { display: "flex", justifyContent: "space-around" } }}
-      >
+      <Tabs value={value} onChange={handleTabChange} centered>
         <Tab label="Exterior" />
         <Tab
           label="Interior"
@@ -252,10 +247,7 @@ const CarButtons = ({ value, handleTabChange }) => {
   );
 
   const handleMenu = (data) => {
-    dispatch(toggledEnteriorCarStatus(undefined));
-    setTimeout(() => {
-      dispatch(toggledEnteriorCarStatus(data));
-    }, 100);
+    dispatch(toggledEnteriorCarStatus(data));
     handleCloseMenu();
   };
 
@@ -273,16 +265,8 @@ const CarButtons = ({ value, handleTabChange }) => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem
-          className="interior-front-image"
-          id="interior-front-image"
-          onClick={() => handleMenu("front")}
-        >
-          Push Start
-        </MenuItem>
-        <MenuItem id="interior-back-image" onClick={() => handleMenu("back")}>
-          See Back Seat
-        </MenuItem>
+        <MenuItem onClick={() => handleMenu("front")}>Push Start</MenuItem>
+        <MenuItem onClick={() => handleMenu("back")}>See Back Seat</MenuItem>
         <MenuItem onClick={handleCloseMenu}>See Center Console</MenuItem>
       </Menu>
     </>
