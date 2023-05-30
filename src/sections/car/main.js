@@ -57,7 +57,22 @@ export default function Main({ onClick }) {
                     position: "relative",
                   }}
                 >
-                  <Image
+                  <img
+                    src={imagePath}
+                    style={{
+                      objectFit: "contain",
+                      width: "100%",
+                      height: "auto",
+                      borderRadius: 10,
+                      overflow: "hidden",
+                    }}
+                    alt="image"
+                    width={width * 0.6}
+                    height={height}
+                    loading="lazy"
+                  />
+
+                  {/* <Image
                     alt="image"
                     priority
                     src={imagePath}
@@ -70,7 +85,7 @@ export default function Main({ onClick }) {
                     }}
                     width={width * 0.6}
                     height={height}
-                  />
+                  /> */}
                   <Box position="absolute" top={"55%"} left={"35%"} zIndex={1}>
                     <IconButton onClick={handleClick}>
                       <img src="/view360.svg" alt="view360.svg" width={width * 0.2} height="auto" />
